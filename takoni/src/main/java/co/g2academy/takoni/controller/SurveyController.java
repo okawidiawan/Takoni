@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -31,6 +32,7 @@ public class SurveyController {
     public String save(@RequestBody Survey survey, Principal principal) {
         User user = userRepository.findUserByUsername(principal.getName());
         survey.setUser(user);
+        survey.setSurveyDate(new Date());
         surveyRepository.save(survey);
         return "Success";
     }

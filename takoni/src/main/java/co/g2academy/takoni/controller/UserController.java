@@ -25,7 +25,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/researcher/register")
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public ResponseEntity<String> registerResearcher(@RequestBody User user) {
         User userFromDb = userRepository.findUserByUsername(user.getUsername());
         if (userFromDb == null
                 && cr.checkRegexUsername(user.getUsername())
@@ -38,14 +38,21 @@ public class UserController {
         return ResponseEntity.ok().body("Success Create New User : " + user.getUsername());
     }
 
-    @PostMapping("/researcher/login")
-    public ResponseEntity<String> login(@RequestBody User user){
+    @PostMapping("/user/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
         User userFromDb = userRepository.findUserByUsername(user.getUsername());
-        if (userFromDb != null && userFromDb.getPassword().equals(user.getPassword())){
-            return ResponseEntity.ok().body("Welcome : " + user.getUsername());
+        if (userFromDb == null
+                && cr.checkRegexUsername(user.getUsername())
+                && cr.checkRegexPassword(user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.calculateAge(user.getBirthdate());
+            userRepository.save(user);
+        } else {
+            return ResponseEntity.badRequest().body("Failed to Create New User");
         }
-        return ResponseEntity.badRequest().body("Login Failed");
+        return ResponseEntity.ok().body("Success Create New User : " + user.getUsername());
     }
+
 
 
 }

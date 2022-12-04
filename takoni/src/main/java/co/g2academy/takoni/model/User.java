@@ -1,6 +1,8 @@
 package co.g2academy.takoni.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -21,9 +23,8 @@ public class User implements Serializable {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Column
-    @Temporal(TemporalType.DATE)
-    private Date birthdate;
+    @Column(name = "birthdate", columnDefinition = "DATE")
+    private LocalDate birthdate;
 
     @Column(length = 100)
     private String city;
@@ -37,10 +38,10 @@ public class User implements Serializable {
     @Column
     private String ses;
 
-    @Column(columnDefinition = "integer default 0")
-    private Integer pointReward;
+    @Column
+    private Integer pointReward = 0;
 
-    @Transient
+    @Column
     private Integer age;
 
     public Integer getId() {
@@ -75,11 +76,11 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public Date getBirthdate() {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Date birthdate) {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -130,4 +131,11 @@ public class User implements Serializable {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+    public void calculateAge(LocalDate birthdate){
+        LocalDate currentDate = LocalDate.now();
+        Integer age = Period.between(birthdate, currentDate).getYears();
+        this.setAge(age);
+    }
+
 }
