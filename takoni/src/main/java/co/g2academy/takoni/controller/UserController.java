@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     @Autowired
     private CheckRegex cr;
@@ -26,12 +26,12 @@ public class UserController {
 
     @PostMapping("/researcher/register")
     public ResponseEntity<String> register(@RequestBody User user) {
-        User userFromDb = repository.findUserByUsername(user.getUsername());
+        User userFromDb = userRepository.findUserByUsername(user.getUsername());
         if (userFromDb == null
                 && cr.checkRegexUsername(user.getUsername())
                 && cr.checkRegexPassword(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            repository.save(user);
+            userRepository.save(user);
         } else {
             return ResponseEntity.badRequest().body("Failed to Create New User");
         }
@@ -40,7 +40,7 @@ public class UserController {
 
     @PostMapping("/researcher/login")
     public ResponseEntity<String> login(@RequestBody User user){
-        User userFromDb = repository.findUserByUsername(user.getUsername());
+        User userFromDb = userRepository.findUserByUsername(user.getUsername());
         if (userFromDb != null && userFromDb.getPassword().equals(user.getPassword())){
             return ResponseEntity.ok().body("Welcome : " + user.getUsername());
         }

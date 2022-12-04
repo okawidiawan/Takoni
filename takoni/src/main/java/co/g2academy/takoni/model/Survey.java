@@ -1,5 +1,6 @@
 package co.g2academy.takoni.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "t_survey")
-public class Survey {
+public class Survey implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,16 +30,16 @@ public class Survey {
     @Column(length = 200, nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     private Date surveyDate;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer numOfQuestion;
 
     @ManyToOne
     @JoinColumn(name = "researcher_id")
-    private User researcher;
+    private User user;
 
     public Integer getId() {
         return id;
@@ -88,14 +89,11 @@ public class Survey {
         this.numOfQuestion = numOfQuestion;
     }
 
-    public User getResearcher() {
-        return researcher;
+    public User getUser() {
+        return user;
     }
 
-    public void setResearcher(User researcher) {
-        this.researcher = researcher;
+    public void setUser(User user) {
+        this.user = user;
     }
-    
-    
-
 }

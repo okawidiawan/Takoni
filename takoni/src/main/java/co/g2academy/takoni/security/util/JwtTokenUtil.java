@@ -15,7 +15,7 @@ import java.util.Map;
 @Component
 public class JwtTokenUtil {
 
-    public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 60 * 1000;
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000;
 
     @Value("${jwt.secret}")
     private String secret;
