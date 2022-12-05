@@ -34,12 +34,15 @@ public class Survey implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date surveyDate;
 
-    @Column(nullable = true)
-    private Integer numOfQuestion;
+    @Column(nullable = false)
+    private Integer numOfRespondent;
+
+    @Column(nullable = false)
+    private String status = "Waiting";
 
     @ManyToOne
     @JoinColumn(name = "researcher_id")
-    private User user;
+    private User researcher;
 
     public Integer getId() {
         return id;
@@ -81,19 +84,27 @@ public class Survey implements Serializable {
         this.surveyDate = surveyDate;
     }
 
-    public Integer getNumOfQuestion() {
-        return numOfQuestion;
+    public Integer getNumOfRespondent() {
+        return numOfRespondent;
     }
 
-    public void setNumOfQuestion(Integer numOfQuestion) {
-        this.numOfQuestion = numOfQuestion;
+    public void setNumOfRespondent(Integer numOfRespondent) {
+        this.numOfRespondent = numOfRespondent;
     }
 
-    public User getUser() {
-        return user;
+    public String getStatus() {
+        return status;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public User getResearcher() {
+        return researcher;
+    }
+
+    public void setResearcher(User researcher) {
+        this.researcher = researcher;
     }
 }

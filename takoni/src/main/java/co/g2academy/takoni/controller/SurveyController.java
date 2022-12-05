@@ -29,11 +29,11 @@ public class SurveyController {
     }
 
     @PostMapping("/add/survey")
-    public String save(@RequestBody Survey survey, Principal principal) {
+    public String addSurvey(@RequestBody Survey survey, Principal principal) {
         User user = userRepository.findUserByUsername(principal.getName());
-        survey.setUser(user);
+        survey.setResearcher(user);
         survey.setSurveyDate(new Date());
         surveyRepository.save(survey);
-        return "Success";
+        return "Success Add New Survey\nTitle : " + survey.getTitle();
     }
 }

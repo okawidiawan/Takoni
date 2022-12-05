@@ -35,7 +35,7 @@ public class UserController {
         } else {
             return ResponseEntity.badRequest().body("Failed to Create New User");
         }
-        return ResponseEntity.ok().body("Success Create New User : " + user.getUsername());
+        return ResponseEntity.ok().body("Success Create New Researcher : " + user.getUsername());
     }
 
     @PostMapping("/user/register")
