@@ -29,7 +29,7 @@ public class QuestionController {
     private QuestionRepository questionRepository;
 
     @PostMapping("/add/survey/question")
-    public ResponseEntity<String> addQuestionToSurvey(@RequestBody Question question, Principal principal){
+    public ResponseEntity<String> addQuestionToSurvey(@RequestBody Question question, Principal principal) {
         User user = userRepository.findUserByUsername(principal.getName());
         Survey survey = surveyRepository.findById(question.getSurvey().getId()).get();
         question.setSurvey(survey);
