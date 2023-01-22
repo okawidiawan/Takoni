@@ -15,6 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://192.168.100.14:8080")
+
 public class SurveyController {
 
     @Autowired

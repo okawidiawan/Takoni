@@ -1,6 +1,16 @@
 * {
-  font-family: "Quicksand";
+  font-family: "Quicksand" !important;
 }
 body {
   background-color: #f4f7ff;
+}
+.swal2-title {
+  font-size: 24px !important;
+}
+
+.swal2-styled.swal2-confirm {
+  padding: 0 !important;
+  background-color: #3e4154 !important;
+  width: 100px;
+  height: 40px;
 }
