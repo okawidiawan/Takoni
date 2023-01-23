@@ -23,7 +23,7 @@ const Register = () => {
   };
 
   const onCHangeHandler = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
 
     setUsers((state) => {
       return { ...state, [name]: value };

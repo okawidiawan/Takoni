@@ -1,7 +1,50 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setIsLogin }) => {
+  const [userLogin, setUserLogin] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchUser = (user) => {
+    axios
+      .post(
+        `http://localhost:8080/api/authenticate`,
+        {
+          ...userLogin,
+        },
+        {
+          headers: `${localStorage.getItem("Authorization")}`,
+        }
+      )
+      .then(({ data }) => {
+        console.log(data);
+        let { token } = data;
+        let bearerToken = `Bearer ${token}`;
+        localStorage.setItem("Authorization", bearerToken);
+        Swal.fire("You're Logged In");
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        Swal.fire(error.message);
+      });
+  };
+
+  const onCHangeHandler = (e) => {
+    let { name, value } = e.target;
+    setUserLogin((state) => {
+      return { ...state, [name]: value };
+    });
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    fetchUser(userLogin);
+    Array.from(document.querySelectorAll("input")).forEach((input) => (input.value = ""));
+  };
+
   return (
     <div className="mx-auto mt-20 flex justify-center">
       <div className="flex w-[290px] flex-col justify-center rounded-l-md bg-[#3E4154] p-10 shadow-md">
@@ -15,18 +58,34 @@ const Login = () => {
           <span className="font-bold">Login</span> to continue to your account.
         </p>
       </div>
-      <form action="" className="h-auto w-[400px]  rounded-r-md bg-white py-10 shadow-md">
+
+      <form action="" className="h-auto w-[400px]  rounded-r-md bg-white py-10 shadow-md" onSubmit={onSubmitHandler}>
         <div className="mx-auto mb-5 flex w-[250px] flex-col">
           <label htmlFor="username" className="mb-1 font-medium">
             Username
           </label>
-          <input type="text" name="username" id="username" className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300" placeholder="enter your username " />
+          <input
+            type="text"
+            name="username"
+            id="username"
+            className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
+            placeholder="enter your username"
+            onChange={onCHangeHandler}
+          />
         </div>
+
         <div className="mx-auto flex w-[250px] flex-col">
           <label htmlFor="password" className="mb-1 font-medium">
             Password
           </label>
-          <input type="password" name="password" id="password" className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300" placeholder="enter your password" />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
+            placeholder="enter your password"
+            onChange={onCHangeHandler}
+          />
         </div>
 
         <div className="mx-auto mt-10 flex w-[250px] justify-between ">
