@@ -1,7 +1,9 @@
 package co.g2academy.takoni.controller;
 
+import co.g2academy.takoni.model.Question;
 import co.g2academy.takoni.model.Survey;
 import co.g2academy.takoni.model.User;
+import co.g2academy.takoni.repository.QuestionRepository;
 import co.g2academy.takoni.repository.SurveyRepository;
 import co.g2academy.takoni.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -24,6 +27,9 @@ public class SurveyController {
 
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired
+    private QuestionRepository questionRepository;
 
 //    @GetMapping("/survey")
 //    public List<Survey> getSurvey(Principal principal) {
@@ -45,4 +51,22 @@ public class SurveyController {
         surveyRepository.save(survey);
         return "Success Add New Survey\nTitle : " + survey.getTitle();
     }
+
+    @DeleteMapping("/delete/survey/{id}")
+    public ResponseEntity deleteSurvey(@PathVariable Integer id, Principal principal) {
+        Optional<Survey> opt = surveyRepository.findById(id);
+        if (!opt.isEmpty()) {
+            Survey surveyFromDb = opt.get();
+            if (surveyFromDb.getResearcher().getUsername().equals(principal.getName())) {
+                List<Question> questionList = questionRepository.getBySurveyId(surveyFromDb.getId());
+                System.out.println(questionList);
+                questionRepository.deleteAll(questionList);
+                surveyRepository.deleteById(id);
+                return ResponseEntity.ok("Deleted");
+            }
+        }
+        return ResponseEntity.badRequest().body("Failed to Delete");
+
+    }
+
 }
