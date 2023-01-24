@@ -1,5 +1,6 @@
 package co.g2academy.takoni.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;

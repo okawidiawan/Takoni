@@ -25,9 +25,16 @@ public class SurveyController {
     @Autowired
     private UserRepository userRepository;
 
+//    @GetMapping("/survey")
+//    public List<Survey> getSurvey(Principal principal) {
+//        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+//        return surveyRepository.findAll();
+//    }
     @GetMapping("/survey")
-    public List<Survey> getSurvey() {
-        return surveyRepository.findAll();
+    public ResponseEntity getSurvey(Principal principal) {
+        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+        List<Survey> survey = surveyRepository.getSurveyByResearcher(userLoggedIn);
+        return ResponseEntity.ok(survey);
     }
 
     @PostMapping("/add/survey")
