@@ -32,9 +32,17 @@ public class QuestionController {
     public ResponseEntity<String> addQuestionToSurvey(@RequestBody Question question, Principal principal) {
         User user = userRepository.findUserByUsername(principal.getName());
         Survey survey = surveyRepository.findById(question.getSurvey().getId()).get();
-        question.setSurvey(survey);
-        questionRepository.save(question);
-        return ResponseEntity.ok().body("Success");
+        System.out.println(survey.getResearcher().getId());
+        System.out.println(user.getId());
+
+        if (user.getId().equals(survey.getResearcher().getId())) {
+            question.setSurvey(survey);
+            questionRepository.save(question);
+            return ResponseEntity.ok().body("Success");
+        }
+        else{
+            return ResponseEntity.badRequest().body("Failed to add Question");
+        }
     }
 
 }
