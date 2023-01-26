@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const Register = () => {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   const addNewUser = (newUser) => {
     axios
@@ -12,8 +13,8 @@ const Register = () => {
         ...users,
       })
       .then(() => {
-        Swal.fire("Success Added");
-        console.log("Success Added");
+        Swal.fire("Success Create New Account");
+        navigate("/login");
       })
       .catch((error) => {
         let { data } = error.response;

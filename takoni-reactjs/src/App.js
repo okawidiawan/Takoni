@@ -12,6 +12,7 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Pricing from "./pages/Pricing";
 import Register from "./pages/Register";
+import SurveyDetails from "./pages/SurveyDetails";
 
 function App() {
   // const testRedux = useSelector((state) => state.text);
@@ -34,6 +35,7 @@ function App() {
         <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/surveyDetails/:id" element={<SurveyDetails />} />
       </Routes>
     </div>
   );

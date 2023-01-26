@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://192.168.100.14:8080")
+@CrossOrigin(origins = "*")
 
 public class SurveyController {
 
