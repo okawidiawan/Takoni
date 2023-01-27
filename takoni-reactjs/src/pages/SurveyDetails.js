@@ -46,9 +46,6 @@ const SurveyDetails = () => {
     getQuestionBySurveyId();
   }, []);
 
-  // console.log(survey);
-  console.log(questions);
-
   return (
     <div className="mt-20">
       <div className="mx-auto mt-5 flex h-[500px] w-4/5 flex-col rounded-md bg-white p-4 shadow-md">

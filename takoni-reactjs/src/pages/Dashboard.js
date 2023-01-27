@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Surveys from "../components/Surveys";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const Dashboard = ({ setIsLogin }) => {
   const [user, setUser] = useState([]);
   const [surveys, setSurvey] = useState([]);
+  const navigate = useNavigate();
 
   const getUser = () => {
     axios
@@ -39,15 +40,28 @@ const Dashboard = () => {
       });
   };
 
+  const logout = () => {
+    localStorage.removeItem("Authorization");
+    setIsLogin(false);
+    navigate("/");
+  };
+
+  const checkLogin = () => {
+    if (localStorage.getItem("Authorization")) {
+      setIsLogin(true);
+    }
+  };
+
   useEffect(() => {
     getUser();
     getSurvey();
+    checkLogin();
   }, []);
 
   return (
     <div className="mt-20">
-      <div className="mx-auto mt-5 flex h-[500px] w-4/5 rounded-md bg-white p-4 shadow-md">
-        <div className="h-full w-56 rounded-md border shadow-md">
+      <div className="mx-auto mt-5 flex w-[1200px] items-start rounded-md bg-white p-4 shadow-md">
+        <div className="mt-[52px] h-[500px] w-[230px] rounded-md border shadow-md">
           <div className="flex h-full flex-col justify-between ">
             <h1 className="border-b p-4 text-xl">
               Welcome, <br />
@@ -65,13 +79,13 @@ const Dashboard = () => {
               </Link>
             </div>
             <div className="mx-auto flex w-full flex-col p-4">
-              <Link to="" className=" rounded-md bg-gray-500 px-10 py-2 text-center font-semibold text-white">
+              <button className=" rounded-md bg-gray-500 px-10 py-2 text-center font-semibold text-white" onClick={logout}>
                 Log Out
-              </Link>
+              </button>
             </div>
           </div>
         </div>
-        <Surveys surveys={surveys} />
+        <Surveys surveys={surveys} setSurvey={setSurvey} />
       </div>
     </div>
   );
