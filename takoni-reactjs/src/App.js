@@ -35,7 +35,7 @@ function App() {
         <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/surveyDetails/:id" element={<SurveyDetails />} />
+        <Route path="/survey/:id" element={<SurveyDetails />} />
       </Routes>
     </div>
   );

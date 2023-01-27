@@ -43,7 +43,7 @@ public class Survey implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "researcher_id")
-    @JsonIgnore
+//    @JsonIgnore
     private User researcher;
 
     public Integer getId() {

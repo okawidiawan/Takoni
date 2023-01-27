@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Surveys from "../components/Surveys";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const [user, setUser] = useState([]);
@@ -45,10 +46,31 @@ const Dashboard = () => {
 
   return (
     <div className="mt-20">
-      <h1 className="text-center text-3xl">Welcome, {user.name}</h1>
       <div className="mx-auto mt-5 flex h-[500px] w-4/5 rounded-md bg-white p-4 shadow-md">
-        <div className="h-full w-56 rounded-md border"></div>
-        {/* <div className=""></div> */}
+        <div className="h-full w-56 rounded-md border shadow-md">
+          <div className="flex h-full flex-col justify-between ">
+            <h1 className="border-b p-4 text-xl">
+              Welcome, <br />
+              <span className="font-bold">{user.name}</span>
+            </h1>
+            <div className="flex flex-col p-4">
+              <Link to="" className="mb-5 text-left font-semibold">
+                Survey List
+              </Link>
+              <Link to="" className="mb-5 text-left font-semibold">
+                Survey Report
+              </Link>
+              <Link to="" className="mb-5 text-left font-semibold">
+                Add New Survey
+              </Link>
+            </div>
+            <div className="mx-auto flex w-full flex-col p-4">
+              <Link to="" className=" rounded-md bg-gray-500 px-10 py-2 text-center font-semibold text-white">
+                Log Out
+              </Link>
+            </div>
+          </div>
+        </div>
         <Surveys surveys={surveys} />
       </div>
     </div>

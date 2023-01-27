@@ -21,10 +21,10 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 
 public class SurveyController {
-
+    
     @Autowired
     private SurveyRepository surveyRepository;
-
+    
     @Autowired
     private UserRepository userRepository;
     
@@ -39,10 +39,22 @@ public class SurveyController {
     @GetMapping("/survey")
     public ResponseEntity getSurvey(Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
-        List<Survey> survey = surveyRepository.getSurveyByResearcher(userLoggedIn);
+        List<Survey> survey = surveyRepository.getAllSurveyByResearcher(userLoggedIn);
         return ResponseEntity.ok(survey);
     }
-
+    
+    @GetMapping("/survey/{id}")
+    public ResponseEntity getSurveyById(@PathVariable Integer id, Principal principal) {
+        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+        Survey survey = surveyRepository.findById(id).get();
+        List<Question> question = questionRepository.getBySurveyId(id);
+        
+        if (userLoggedIn.getId() == survey.getResearcher().getId()) {
+            return ResponseEntity.ok(survey);
+        }
+        return ResponseEntity.badRequest().body("Failed to Get Survey");
+    }
+    
     @PostMapping("/add/survey")
     public String addSurvey(@RequestBody Survey survey, Principal principal) {
         User user = userRepository.findUserByUsername(principal.getName());
@@ -51,7 +63,7 @@ public class SurveyController {
         surveyRepository.save(survey);
         return "Success Add New Survey\nTitle : " + survey.getTitle();
     }
-
+    
     @DeleteMapping("/delete/survey/{id}")
     public ResponseEntity deleteSurvey(@PathVariable Integer id, Principal principal) {
         Optional<Survey> opt = surveyRepository.findById(id);
@@ -66,7 +78,7 @@ public class SurveyController {
             }
         }
         return ResponseEntity.badRequest().body("Failed to Delete");
-
+        
     }
-
+    
 }

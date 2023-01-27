@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface SurveyRepository extends JpaRepository<Survey, Integer> {
     public Optional<Survey> findById(Integer id);
-//    public Survey getSurveyByResearcher(User user);
-    public List<Survey> getSurveyByResearcher(User user);
+//    public Survey getAllSurveyByResearcher(User user);
+    public List<Survey> getAllSurveyByResearcher(User user);
 }

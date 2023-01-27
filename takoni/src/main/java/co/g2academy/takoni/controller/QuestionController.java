@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api")
@@ -42,10 +45,22 @@ public class QuestionController {
             question.setSurvey(survey);
             questionRepository.save(question);
             return ResponseEntity.ok().body("Success");
-        }
-        else{
+        } else {
             return ResponseEntity.badRequest().body("Failed to add Question");
         }
+    }
+
+    @GetMapping("/question/{id}")
+    public ResponseEntity getQuestion(@PathVariable Integer id, Principal principal) {
+        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+        Survey survey = surveyRepository.findById(id).get();
+        List<Question> question = questionRepository.getBySurveyId(id);
+        if (userLoggedIn.getId() == survey.getResearcher().getId()) {
+            return ResponseEntity.ok(question);
+        }
+
+        System.out.println();
+        return ResponseEntity.badRequest().body("Failed to get Question");
     }
 
 }
