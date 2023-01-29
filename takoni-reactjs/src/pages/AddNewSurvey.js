@@ -11,7 +11,7 @@ const AddNewSurvey = ({ setSurvey, surveys }) => {
     },
   };
 
-  const AddNewSurvey = (input) => {
+  const addNewSurvey = (input) => {
     // axios
     //   .post(url, data, config)
     //   .then((res) => {
@@ -72,7 +72,7 @@ const AddNewSurvey = ({ setSurvey, surveys }) => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    AddNewSurvey(inputSurvey);
+    addNewSurvey(inputSurvey);
   };
 
   useEffect(() => {

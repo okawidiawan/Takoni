@@ -11,8 +11,15 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
   const { id } = useParams();
   const [survey, setSurveyS] = useState({});
   const [questions, setQuestions] = useState([]);
+  const [inputQuestion, setInputQuestion] = useState({});
 
   let date = moment(survey.surveyDate).format("LLL");
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `${localStorage.getItem("Authorization")}`,
+    },
+  };
 
   const getSurveyById = () => {
     axios
@@ -65,6 +72,65 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
       });
   };
 
+  const updateSurveyStatus = () => {
+    axios
+      .put(
+        `http://192.168.100.14:8080/api/update/surveystatus`,
+        { id: survey.id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("Authorization")}`,
+          },
+        }
+      )
+      .then(() => {
+        // changeStatus(survey.id, "Published")
+        setSurvey((state) => {
+          return { ...state, status: state.status };
+        });
+        console.log("Success update");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const addQuestion = (input) => {
+    axios
+      .post(
+        `http://192.168.100.14:8080/api/add/survey/question`,
+        {
+          ...input,
+        },
+        config
+      )
+      .then((response) => {
+        console.log(response);
+        setQuestions([...questions, input]);
+        console.log("Success Add New Survey!");
+        console.log(questions);
+        console.log(input);
+      })
+      .catch((error) => {
+        console.log("Gagal");
+        console.log(error);
+      });
+  };
+
+  const onCHangeHandler = (e) => {
+    let { name, value } = e.target;
+    setInputQuestion((state) => {
+      return { ...state, survey: { id: survey.id }, [name]: value };
+    });
+  };
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    addQuestion(inputQuestion);
+    Array.from(document.querySelectorAll("input")).forEach((input) => (input.value = ""));
+  };
+
   useEffect(() => {
     getSurveyById();
     getQuestionBySurveyId();
@@ -93,7 +159,9 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
           <p className="mb-5 text-xs  font-semibold text-black/10">{date}</p>
           <h1 className="font-semibold">Status</h1>
           <p className={`mb-5 text-xs  font-semibold ${survey.status === "Waiting" ? "text-red-300" : "text-emerald-500"}`}>{survey.status}</p>
-          <button className={`rounded-md bg-emerald-400 px-4 py-1 font-semibold text-white ${survey.status === "Waiting" ? "" : "hidden"}`}>Publish</button>
+          <button className={`rounded-md bg-emerald-300 px-4 py-1 font-semibold text-white shadow-md shadow-emerald-300/50 ${survey.status === "Waiting" ? "" : "hidden"}`} onClick={updateSurveyStatus}>
+            Publish
+          </button>
         </div>
         <div>
           <h1 className="mb-2 text-xl font-semibold">Question</h1>
@@ -101,6 +169,21 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
           {questions.map((question, index) => (
             <Question key={question.id} question={question} index={index} />
           ))}
+          <form action="" className={`h-auto ${survey.status === "Waiting" ? "" : "hidden"}`} onSubmit={onSubmitHandler}>
+            <div className="mx-auto mb-5 flex w-[250px] flex-col">
+              <input
+                type="text"
+                name="questionText"
+                id="questionText"
+                className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
+                placeholder="enter your question"
+                onChange={onCHangeHandler}
+              />
+            </div>
+            <button className="rounded-md bg-emerald-300 px-4 py-1 font-semibold text-white shadow-md shadow-emerald-300/50" onClick={addQuestion}>
+              Add Question
+            </button>
+          </form>
         </div>
       </div>
     </div>

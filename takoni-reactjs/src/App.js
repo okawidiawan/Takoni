@@ -17,7 +17,7 @@ import Register from "./pages/Register";
 import SurveyDetails from "./pages/SurveyDetails";
 
 function App() {
-  const [isLogin, setIsLogin] = useState();
+  const [isLogin, setIsLogin] = useState(false);
   const [surveys, setSurvey] = useState([]);
   const [user, setUser] = useState([]);
 
