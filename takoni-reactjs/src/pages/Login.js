@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ setIsLogin }) => {
-  const [userLogin, setUserLogin] = useState([]);
+const Login = ({ user, setUser, setIsLogin }) => {
+  // const [userLogin, setUserLogin] = useState([]);
   const navigate = useNavigate();
 
   const fetchUser = (user) => {
@@ -13,7 +13,7 @@ const Login = ({ setIsLogin }) => {
       .post(
         `http://localhost:8080/api/authenticate`,
         {
-          ...userLogin,
+          ...user,
         },
         {
           headers: `${localStorage.getItem("Authorization")}`,
@@ -24,7 +24,9 @@ const Login = ({ setIsLogin }) => {
         let bearerToken = `Bearer ${token}`;
         localStorage.setItem("Authorization", bearerToken);
         Swal.fire("You're Logged In");
+        setIsLogin(true);
         navigate("/dashboard");
+        // console.log(userLogin);
       })
       .catch((error) => {
         Swal.fire(error.message);
@@ -33,14 +35,14 @@ const Login = ({ setIsLogin }) => {
 
   const onCHangeHandler = (e) => {
     let { name, value } = e.target;
-    setUserLogin((state) => {
+    setUser((state) => {
       return { ...state, [name]: value };
     });
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    fetchUser(userLogin);
+    fetchUser(user);
     Array.from(document.querySelectorAll("input")).forEach((input) => (input.value = ""));
   };
 

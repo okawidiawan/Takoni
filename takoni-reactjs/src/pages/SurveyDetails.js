@@ -56,7 +56,7 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
       })
       .then(() => {
         setSurvey(surveys.filter((item) => item.id !== idInput));
-        navigate("/dashboard/surveys");
+        navigate("/dashboard");
 
         console.log("Deleted");
       })
@@ -73,14 +73,14 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
   return (
     <div className="flex w-full flex-col text-[#3E4154]">
       <div className="relative mb-8 flex items-center justify-center border-b pt-2 pb-5">
-        <NavLink to="/dashboard/surveys" className="absolute left-5">
+        <NavLink to="/dashboard" className="absolute left-5">
           <ArrowLeftIcon className="h-8 w-8 text-[#3E4154]" />
         </NavLink>
 
         <h1 className="text-center text-2xl font-bold text-[#3E4154]">Survey Details</h1>
 
         <button className="absolute right-5" onClick={() => deleteSurvey(survey.id)}>
-          <TrashIcon className="h-7 w-7 text-[#3E4154]" />
+          <TrashIcon className="h-8 w-8 text-[#3E4154]" />
         </button>
       </div>
       <div className="mx-auto flex w-4/5 justify-center ">
@@ -91,6 +91,9 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
           <p className="mb-5 text-xs  font-semibold text-black/10">{survey.description}</p>
           <h1 className="font-semibold">Date</h1>
           <p className="mb-5 text-xs  font-semibold text-black/10">{date}</p>
+          <h1 className="font-semibold">Status</h1>
+          <p className={`mb-5 text-xs  font-semibold ${survey.status === "Waiting" ? "text-red-300" : "text-emerald-500"}`}>{survey.status}</p>
+          <button className={`rounded-md bg-emerald-400 px-4 py-1 font-semibold text-white ${survey.status === "Waiting" ? "" : "hidden"}`}>Publish</button>
         </div>
         <div>
           <h1 className="mb-2 text-xl font-semibold">Question</h1>

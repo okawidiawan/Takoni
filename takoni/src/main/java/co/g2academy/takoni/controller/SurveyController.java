@@ -21,13 +21,13 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 
 public class SurveyController {
-    
+
     @Autowired
     private SurveyRepository surveyRepository;
-    
+
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private QuestionRepository questionRepository;
 
@@ -42,28 +42,46 @@ public class SurveyController {
         List<Survey> survey = surveyRepository.getAllSurveyByResearcher(userLoggedIn);
         return ResponseEntity.ok(survey);
     }
-    
+
     @GetMapping("/survey/{id}")
     public ResponseEntity getSurveyById(@PathVariable Integer id, Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
         Survey survey = surveyRepository.findById(id).get();
         List<Question> question = questionRepository.getBySurveyId(id);
-        
+
         if (userLoggedIn.getId() == survey.getResearcher().getId()) {
             return ResponseEntity.ok(survey);
         }
         return ResponseEntity.badRequest().body("Failed to Get Survey");
     }
-    
+
     @PostMapping("/add/survey")
-    public String addSurvey(@RequestBody Survey survey, Principal principal) {
-        User user = userRepository.findUserByUsername(principal.getName());
-        survey.setResearcher(user);
+    public ResponseEntity addSurvey(@RequestBody Survey survey, Principal principal) {
+        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+        survey.setResearcher(userLoggedIn);
         survey.setSurveyDate(new Date());
-        surveyRepository.save(survey);
-        return "Success Add New Survey\nTitle : " + survey.getTitle();
+        Survey newSurvey = surveyRepository.save(survey);
+        if (survey.getResearcher().getId().equals(userLoggedIn.getId())) {
+            return ResponseEntity.ok(newSurvey);
+        }
+        return ResponseEntity.badRequest().body("Failed to Add New Survey");
     }
-    
+
+    @PutMapping("/update/surveystatus")
+    public ResponseEntity updateSurveyStatus(@RequestBody Survey survey, Principal principal) {
+        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+        Optional<Survey> opt = surveyRepository.findById(survey.getId());
+        if (!opt.isEmpty()) {
+            Survey surveyFromDb = opt.get();
+            if (surveyFromDb.getResearcher().getId().equals(userLoggedIn.getId())) {
+                surveyFromDb.setStatus("Published");
+                Survey updatedSurveyStatus = surveyRepository.save(surveyFromDb);
+                return ResponseEntity.ok(updatedSurveyStatus);
+            }
+        }
+        return ResponseEntity.badRequest().body("Failed to Change Status");
+    }
+
     @DeleteMapping("/delete/survey/{id}")
     public ResponseEntity deleteSurvey(@PathVariable Integer id, Principal principal) {
         Optional<Survey> opt = surveyRepository.findById(id);
@@ -78,7 +96,7 @@ public class SurveyController {
             }
         }
         return ResponseEntity.badRequest().body("Failed to Delete");
-        
+
     }
-    
+
 }

@@ -1,18 +1,14 @@
-// import { useSelector } from "react-redux";
-// import { useState } from "react";
-// import axios from "axios";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import Surveys from "./components/Surveys";
+import Surveys from "./components/SurveyList";
 import About from "./pages/About";
 import AddNewSurvey from "./pages/AddNewSurvey";
 import Analytics from "./pages/Analytics";
 
 import Dashboard from "./pages/Dashboard";
-// import Home from "./pages/Home";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import Pricing from "./pages/Pricing";
@@ -21,7 +17,7 @@ import Register from "./pages/Register";
 import SurveyDetails from "./pages/SurveyDetails";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState();
   const [surveys, setSurvey] = useState([]);
   const [user, setUser] = useState([]);
 
@@ -58,9 +54,11 @@ function App() {
   };
 
   useEffect(() => {
-    getUser();
-    getSurvey();
-    // checkLogin();
+    if (localStorage.getItem("Authorization")) {
+      setIsLogin(true);
+      getUser();
+      getSurvey();
+    }
   }, []);
 
   return (
@@ -71,13 +69,27 @@ function App() {
         <Route path="/" element={isLogin ? <Dashboard /> : <LandingPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/pricing" element={<Pricing />} />
-        <Route path="/login" element={<Login setIsLogin={setIsLogin} />} />
+        <Route path="/login" element={<Login setIsLogin={setIsLogin} user={user} setUser={setUser} />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/dashboard" element={<Dashboard setIsLogin={setIsLogin} user={user} />}>
-          <Route path="surveys" element={<Surveys surveys={surveys} setSurvey={setSurvey} />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard setIsLogin={setIsLogin} user={user} />
+            </PrivateRoute>
+          }
+        >
+          <Route
+            index
+            element={
+              <PrivateRoute>
+                <Surveys surveys={surveys} setSurvey={setSurvey} />
+              </PrivateRoute>
+            }
+          />
           <Route path="analytics" element={<Analytics />} />
-          <Route path="addsurvey" element={<AddNewSurvey />} />
+          <Route path="addnewsurvey" element={<AddNewSurvey setSurvey={setSurvey} surveys={surveys} />} />
           <Route path="survey/:id" element={<SurveyDetails surveys={surveys} setSurvey={setSurvey} />} />
         </Route>
       </Routes>

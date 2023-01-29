@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { ClipboardDocumentListIcon, DocumentPlusIcon, PresentationChartBarIcon, PowerIcon } from "@heroicons/react/24/outline";
 
@@ -19,13 +19,13 @@ const Dashboard = ({ setIsLogin, user }) => {
 
   useEffect(() => {
     checkLogin();
-  }, []);
+  }, [user]);
 
   return (
     <div className="mt-20">
       <div className="mx-auto mb-1 flex w-4/5 items-center justify-between rounded-md px-4 py-2 ">
         <h1 className="mr-10 text-base font-semibold text-[#3E4154]">
-          Welcome, <span className="block text-xl font-semibold tracking-wide text-emerald-400">{user.name}</span>
+          Welcome, <span className="block text-xl font-semibold tracking-wider text-emerald-400">{user.name}</span>
         </h1>
         <button className=" rounded-full border bg-white p-2 shadow-md" onClick={logout}>
           <PowerIcon className="h-6 w-6 text-[#3E4154]" />
@@ -38,7 +38,7 @@ const Dashboard = ({ setIsLogin, user }) => {
 
       <div className="navigation mx-auto mt-5 w-fit rounded-md ">
         <ul className="flex justify-center p-4">
-          <NavLink to="/dashboard/surveys" className=" mx-5 flex flex-col items-center rounded-md border bg-white p-2 shadow-md">
+          <NavLink to="/dashboard" className="mx-5 flex flex-col items-center rounded-md border bg-white p-2 shadow-md">
             <ClipboardDocumentListIcon className="h-8 w-8 text-black/50" />
           </NavLink>
 
@@ -46,7 +46,7 @@ const Dashboard = ({ setIsLogin, user }) => {
             <PresentationChartBarIcon className="h-8 w-8 text-black/50" />
           </NavLink>
 
-          <NavLink to="/dashboard/addsurvey" className="mx-5 rounded-md border bg-white p-2 shadow-md">
+          <NavLink to="/dashboard/addnewsurvey" className="mx-5 rounded-md border bg-white p-2 shadow-md">
             <DocumentPlusIcon className="h-8 w-8 text-black/50" />
           </NavLink>
         </ul>

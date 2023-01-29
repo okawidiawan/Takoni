@@ -10,7 +10,7 @@ const Register = () => {
   const addNewUser = (newUser) => {
     axios
       .post(`http://localhost:8080/api/researcher/register`, {
-        ...users,
+        ...newUser,
       })
       .then(() => {
         Swal.fire("Success Create New Account");
