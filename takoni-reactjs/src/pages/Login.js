@@ -20,7 +20,6 @@ const Login = ({ setIsLogin }) => {
         }
       )
       .then(({ data }) => {
-        console.log(data);
         let { token } = data;
         let bearerToken = `Bearer ${token}`;
         localStorage.setItem("Authorization", bearerToken);

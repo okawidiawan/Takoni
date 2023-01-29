@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 const LandingPage = () => {
   return (
     <div className="mt-20 flex">
-      <div className="mx-auto flex w-1/3 flex-col">
-        <h1 className="mb-2 text-center text-4xl font-bold leading-relaxed tracking-wide">A simple way to research your target market.</h1>
+      <div className="mx-auto flex w-full flex-col">
+        <h1 className="mb-2 text-center text-4xl font-bold leading-relaxed tracking-wide">
+          A simple way <br /> to research your target market.
+        </h1>
         <p className="text-center text-lg text-black/20">
           Easy way to research, <br /> find your target market right now!
         </p>
