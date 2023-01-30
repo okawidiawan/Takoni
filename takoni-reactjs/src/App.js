@@ -93,9 +93,30 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="analytics" element={<Analytics />} />
-          <Route path="addnewsurvey" element={<AddNewSurvey setSurvey={setSurvey} surveys={surveys} />} />
-          <Route path="survey/:id" element={<SurveyDetails surveys={surveys} setSurvey={setSurvey} />} />
+          <Route
+            path="analytics"
+            element={
+              <PrivateRoute>
+                <Analytics />{" "}
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="addnewsurvey"
+            element={
+              <PrivateRoute>
+                <AddNewSurvey setSurvey={setSurvey} surveys={surveys} />{" "}
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="survey/:id"
+            element={
+              <PrivateRoute>
+                <SurveyDetails surveys={surveys} setSurvey={setSurvey} />{" "}
+              </PrivateRoute>
+            }
+          />
         </Route>
       </Routes>
     </div>

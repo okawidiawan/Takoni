@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 // import { TrashIcon } from "@heroicons/react/24/solid";
-import axios from "axios";
+// import axios from "axios";
 
-import { TrashIcon } from "@heroicons/react/24/outline";
+// import { TrashIcon } from "@heroicons/react/24/outline";
 
 const Survey = ({ survey, setSurvey, surveys, index }) => {
   // const deleteSurvey = (idInput) => {
@@ -22,8 +22,6 @@ const Survey = ({ survey, setSurvey, surveys, index }) => {
   //       console.log(error);
   //     });
   // };
-
-  useEffect(() => {}, [surveys, surveys]);
 
   return (
     <Link to={`/dashboard/survey/${survey.id}`}>

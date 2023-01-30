@@ -134,7 +134,7 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
   useEffect(() => {
     getSurveyById();
     getQuestionBySurveyId();
-  }, [surveys]);
+  }, []);
 
   return (
     <div className="flex w-full flex-col text-[#3E4154]">

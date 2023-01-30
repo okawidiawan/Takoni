@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Survey from "./Survey";
 
 const Surveys = ({ surveys, setSurvey, deleteSurvey }) => {
