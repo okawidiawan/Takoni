@@ -33,6 +33,11 @@ function App() {
         setUser(data);
       })
       .catch((error) => {
+        // if (error) {
+        //   localStorage.clear();
+        //   setIsLogin(false);
+        //   console.log("Clear");
+        // }
         console.log(error);
       });
   };
@@ -66,7 +71,7 @@ function App() {
       <Navbar isLogin={isLogin} />
 
       <Routes>
-        <Route path="/" element={isLogin ? <Dashboard /> : <LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/login" element={<Login setIsLogin={setIsLogin} user={user} setUser={setUser} />} />

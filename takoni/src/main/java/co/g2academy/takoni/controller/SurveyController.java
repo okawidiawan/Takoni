@@ -42,6 +42,13 @@ public class SurveyController {
         List<Survey> survey = surveyRepository.getAllSurveyByResearcher(userLoggedIn);
         return ResponseEntity.ok(survey);
     }
+    
+    @GetMapping("/user/survey")
+    public ResponseEntity getSurveyUser(Principal principal){
+        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+        List<Survey> survey = surveyRepository.getSurveyByStatus("Published");
+        return ResponseEntity.ok(survey);
+    }
 
     @GetMapping("/survey/{id}")
     public ResponseEntity getSurveyById(@PathVariable Integer id, Principal principal) {

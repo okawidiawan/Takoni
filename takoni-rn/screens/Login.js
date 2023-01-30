@@ -1,12 +1,33 @@
-import React, { useCallback } from "react";
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
+import React, { useCallback, useState } from "react";
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import { useFonts } from "expo-font";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
-  const onPressRegister = () => {
-    console.log("Oke");
-    console.log(navigation);
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onPressToRegister = () => {
     navigation.navigate("Register");
+  };
+
+  const login = async () => {
+    try {
+      let { data } = await axios.post(`http://192.168.100.14:8080/api/authenticate`, {
+        username: username,
+        password: password,
+      });
+      let { token } = data;
+      let bearerToken = `Bearer ${token}`;
+      await AsyncStorage.setItem("Authorization", bearerToken);
+      dispatch({ type: "SET_LOGIN" });
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Something Wrong");
+    }
   };
 
   const [fontsLoaded] = useFonts({
@@ -38,19 +59,20 @@ const Login = ({ navigation }) => {
         <View>
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Username</Text>
-            <TextInput style={styles.inputText} placeholder="enter your username" placeholderTextColor="#CBD1D9"></TextInput>
+            <TextInput style={styles.inputText} placeholder="enter your username" placeholderTextColor="#CBD1D9" onChangeText={setUsername} value={username} />
           </View>
+
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Password</Text>
-            <TextInput style={styles.inputText} placeholder="enter your password" placeholderTextColor="#CBD1D9"></TextInput>
+            <TextInput style={styles.inputText} placeholder="enter your password" placeholderTextColor="#CBD1D9" onChangeText={setPassword} value={password} />
           </View>
 
           <View style={styles.buttonGroup}>
-            <TouchableOpacity style={[styles.button, { backgroundColor: "white", borderWidth: 1, borderColor: "#DBDEE5" }]} onPress={onPressRegister}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: "white", borderWidth: 1, borderColor: "#DBDEE5" }]} onPress={onPressToRegister}>
               <Text style={styles.label}>Register</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.button, {}]}>
+            <TouchableOpacity style={[styles.button, {}]} onPress={login}>
               <Text style={[styles.label, { color: "white" }]}>Login</Text>
             </TouchableOpacity>
           </View>

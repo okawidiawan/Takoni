@@ -12,15 +12,6 @@ const AddNewSurvey = ({ setSurvey, surveys }) => {
   };
 
   const addNewSurvey = (input) => {
-    // axios
-    //   .post(url, data, config)
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
     axios
       .post(
         `http://192.168.100.14:8080/api/add/survey`,
@@ -40,26 +31,6 @@ const AddNewSurvey = ({ setSurvey, surveys }) => {
         console.log("Gagal");
         console.log(error);
       });
-
-    // fetch(`http://192.168.100.14:8080/api/add/survey`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `${localStorage.getItem("Authorization")}`,
-    //   },
-    //   body: JSON.stringify(newSurvey),
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       return response.json();
-    //     }
-    //   })
-    //   .then(() => {
-    //     console.log("Added");
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   };
 
   const onCHangeHandler = (e) => {
@@ -73,6 +44,7 @@ const AddNewSurvey = ({ setSurvey, surveys }) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     addNewSurvey(inputSurvey);
+    Array.from(document.querySelectorAll("input")).forEach((input) => (input.value = ""));
   };
 
   useEffect(() => {

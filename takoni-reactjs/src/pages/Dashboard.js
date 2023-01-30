@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { ClipboardDocumentListIcon, DocumentPlusIcon, PresentationChartBarIcon, PowerIcon } from "@heroicons/react/24/outline";
 
@@ -10,16 +10,6 @@ const Dashboard = ({ setIsLogin, user }) => {
     setIsLogin(false);
     navigate("/");
   };
-
-  const checkLogin = () => {
-    if (localStorage.getItem("Authorization")) {
-      setIsLogin(true);
-    }
-  };
-
-  useEffect(() => {
-    checkLogin();
-  }, [user]);
 
   return (
     <div className="mt-20">

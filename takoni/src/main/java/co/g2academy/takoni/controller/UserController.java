@@ -27,9 +27,15 @@ public class UserController {
     private CheckRegex cr;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    
+
     @GetMapping("/researcher")
-    public User getUser(Principal principal){
+    public User getResearcher(Principal principal) {
+        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+        return userLoggedIn;
+    }
+
+    @GetMapping("/user")
+    public User getUser(Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
         return userLoggedIn;
     }
@@ -47,8 +53,6 @@ public class UserController {
         }
         return ResponseEntity.ok().body(user);
     }
-    
-    
 
     @PostMapping("/user/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
@@ -64,7 +68,5 @@ public class UserController {
         }
         return ResponseEntity.ok().body("Success Create New User : " + user.getUsername());
     }
-
-
 
 }

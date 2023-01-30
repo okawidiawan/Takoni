@@ -1,12 +1,13 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ user, setUser, setIsLogin }) => {
-  // const [userLogin, setUserLogin] = useState([]);
   const navigate = useNavigate();
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
 
   const fetchUser = (user) => {
     axios
@@ -16,7 +17,9 @@ const Login = ({ user, setUser, setIsLogin }) => {
           ...user,
         },
         {
-          headers: `${localStorage.getItem("Authorization")}`,
+          headers: {
+            Authorization: `${localStorage.getItem("Authorization")}`,
+          },
         }
       )
       .then(({ data }) => {
@@ -38,6 +41,7 @@ const Login = ({ user, setUser, setIsLogin }) => {
     setUser((state) => {
       return { ...state, [name]: value };
     });
+    console.log(`${name} : ${value}`);
   };
 
   const onSubmitHandler = (e) => {
