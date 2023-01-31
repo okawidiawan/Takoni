@@ -94,6 +94,14 @@ function App() {
             }
           />
           <Route
+            path="surveys"
+            element={
+              <PrivateRoute>
+                <Surveys surveys={surveys} setSurvey={setSurvey} />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="analytics"
             element={
               <PrivateRoute>

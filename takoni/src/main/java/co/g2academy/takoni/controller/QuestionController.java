@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 import java.util.List;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -61,6 +62,20 @@ public class QuestionController {
 
         System.out.println();
         return ResponseEntity.badRequest().body("Failed to get Question");
+    }
+
+    @DeleteMapping("delete/survey/question/{id}")
+    public ResponseEntity deleteSurveyQuestion(@PathVariable Integer id, Principal principal) {
+        User user = userRepository.findUserByUsername(principal.getName());
+        Question question = questionRepository.findQuestionById(id);
+        System.out.println(question);
+        System.out.println(question.getSurvey().getResearcher().getUsername());
+        System.out.println(principal.getName());
+        if (question.getSurvey().getResearcher().getUsername().equals(principal.getName())) {
+            questionRepository.deleteById(id);
+            return ResponseEntity.ok("Deleted Question");
+        }
+        return ResponseEntity.badRequest().body("Failed to delete Question");
     }
 
 }

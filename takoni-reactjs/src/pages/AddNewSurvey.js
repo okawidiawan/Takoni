@@ -54,7 +54,7 @@ const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
   };
 
   useEffect(() => {
-    getSurvey();
+    // getSurvey();
   }, [surveys]);
 
   return (

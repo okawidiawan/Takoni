@@ -3,7 +3,7 @@ import { NavLink, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Question from "../components/Question";
 import moment from "moment";
-import { ArrowLeftIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   const navigate = useNavigate();
@@ -47,7 +47,6 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
       })
       .then(({ data }) => {
         setQuestions(data);
-        console.log("Success Add Question");
       })
       .catch((error) => {
         console.log(error);
@@ -114,13 +113,14 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
         setQuestions((state) => {
           return [...state, input];
         });
+        getQuestionBySurveyId();
         // console.log("Success Add New Survey!");
         // console.log(questions);
         // console.log(input);
       })
       .catch((error) => {
         // console.log("Gagal");
-        console.log(error);
+        // console.log(error);
       });
   };
 
@@ -151,12 +151,12 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
 
         <h1 className="text-center text-2xl font-bold text-[#3E4154]">Survey Details</h1>
 
-        <button className="absolute right-5" onClick={() => deleteSurvey(surveyById.id)}>
+        <button className="absolute right-5 before:absolute before:-top-1 before:-right-1 before:h-7 before:w-7 before:rounded-full before:bg-emerald-300/40" onClick={() => deleteSurvey(surveyById.id)}>
           <TrashIcon className="h-8 w-8 text-[#3E4154]" />
         </button>
       </div>
-      <div className="mx-auto flex w-4/5 justify-center ">
-        <div className="mr-20">
+      <div className="mx-auto flex w-full justify-center">
+        <div className="mr-20 w-[370px]">
           <h1 className=" text-xl font-bold">{surveyById.title}</h1>
           <p className="mb-5 text-sm font-medium text-black/10">{surveyById.subTitle}</p>
           <h1 className="font-semibold">Description</h1>
@@ -164,31 +164,37 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
           <h1 className="font-semibold">Date</h1>
           <p className="mb-5 text-xs  font-semibold text-black/10">{date}</p>
           <h1 className="font-semibold">Status</h1>
-          <p className={`mb-5 text-xs  font-semibold ${surveyById.status === "Waiting" ? "text-red-300" : "text-emerald-500"}`}>{surveyById.status}</p>
-          <button className={`rounded-md bg-emerald-300 px-4 py-1 font-semibold text-white shadow-md shadow-emerald-300/50 ${surveyById.status === "Waiting" ? "" : "hidden"}`} onClick={updateSurveyStatus}>
+          <p className={`mb-5 mt-2 w-fit rounded-md border-2 px-3 py-1 text-sm font-semibold ${surveyById.status === "Waiting" ? "border-slate-500/20 bg-slate-400 text-white" : "border-emerald-600/30 bg-emerald-500 text-white"}`}>
+            {surveyById.status}
+          </p>
+          <button
+            className={`h-[34px] w-[200px] rounded-md bg-emerald-400 text-[14px] font-semibold text-white shadow-md shadow-emerald-300/30 transition duration-300 hover:bg-emerald-500 ${surveyById.status === "Waiting" ? "" : "hidden"}`}
+            onClick={updateSurveyStatus}
+          >
             Publish
           </button>
         </div>
-        <div>
+        <div className="w-[700px]">
           <h1 className="mb-2 text-xl font-semibold">Question</h1>
 
           {questions.map((question, index) => (
-            <Question key={question.id} question={question} index={index} />
+            <Question key={question.id} question={question} index={index} questions={questions} setQuestions={setQuestions} />
           ))}
-          <form action="" className={`h-auto ${surveyById.status === "Waiting" ? "" : "hidden"}`} onSubmit={onSubmitHandler}>
-            <div className="mx-auto mb-5 flex w-[250px] flex-col">
-              <input
+          <form action="" className={`mt-5 h-auto ${surveyById.status === "Waiting" ? "" : "hidden"}`} onSubmit={onSubmitHandler}>
+            <div className="mb-5 flex w-fit flex-col">
+              <textarea
                 type="text"
                 name="questionText"
                 id="questionText"
-                className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
+                className="h-[100px] w-[500px] resize-none rounded-md border border-black/10 bg-[#f4f7ff] p-2 text-sm shadow-sm placeholder:text-slate-300"
                 placeholder="enter your question"
                 onChange={onCHangeHandler}
               />
+              <button className="mt-3 w-fit rounded-md bg-[#3E4154] py-2 px-6 text-[12px] font-semibold text-white shadow-md shadow-[#3E4154]/50 " onClick={addQuestion}>
+                {/* <PlusIcon className="h-5 w-12" /> */}
+                Add Question
+              </button>
             </div>
-            <button className="rounded-md bg-emerald-300 px-4 py-1 font-semibold text-white shadow-md shadow-emerald-300/50" onClick={addQuestion}>
-              Add Question
-            </button>
           </form>
         </div>
       </div>

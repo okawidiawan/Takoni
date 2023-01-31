@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
     public Optional<Question> findById(Integer id);
+    public Question findQuestionById(Integer id);
     public List<Question> getBySurveyId(Integer id);
     public List<Question> deleteBySurvey(Integer id);
 }
