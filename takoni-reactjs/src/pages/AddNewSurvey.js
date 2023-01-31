@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const AddNewSurvey = ({ setSurvey, surveys }) => {
-  const [inputSurvey, setInputSurvey] = useState({ title: "", subTitle: "", description: "", numOfRespondent: "" });
+const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
+  const [inputNewSurvey, setInputNewSurvey] = useState([]);
 
   const config = {
     headers: {
@@ -16,19 +16,25 @@ const AddNewSurvey = ({ setSurvey, surveys }) => {
       .post(
         `http://192.168.100.14:8080/api/add/survey`,
         {
-          ...input,
+          title: input.title,
+          subTitle: input.subTitle,
+          description: input.description,
+          numOfRespondent: input.numOfRespondent,
         },
         config
       )
       .then((response) => {
-        console.log(response);
-        setSurvey([...surveys, input]);
+        // console.log(response);
+        // setSurvey([...surveys, input]);
+        setSurvey((state) => {
+          return [...state, input];
+        });
+
         console.log("Success Add New Survey!");
-        console.log(surveys);
-        console.log(input);
+        getSurvey();
       })
       .catch((error) => {
-        console.log("Gagal");
+        // console.log("Gagal");
         console.log(error);
       });
   };
@@ -36,19 +42,19 @@ const AddNewSurvey = ({ setSurvey, surveys }) => {
   const onCHangeHandler = (e) => {
     let { name, value } = e.target;
     // console.log(`${name} : ${value}`);
-    setInputSurvey((state) => {
+    setInputNewSurvey((state) => {
       return { ...state, [name]: value };
     });
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    addNewSurvey(inputSurvey);
+    addNewSurvey(inputNewSurvey);
     Array.from(document.querySelectorAll("input")).forEach((input) => (input.value = ""));
   };
 
   useEffect(() => {
-    console.log("Render");
+    getSurvey();
   }, [surveys]);
 
   return (

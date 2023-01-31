@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { ClipboardDocumentListIcon, DocumentPlusIcon, PresentationChartBarIcon, PowerIcon } from "@heroicons/react/24/outline";
 
-const Dashboard = ({ setIsLogin, user }) => {
+const Dashboard = ({ setIsLogin, user, getUser, getSurvey }) => {
   const navigate = useNavigate();
 
   const logout = () => {
@@ -10,6 +10,11 @@ const Dashboard = ({ setIsLogin, user }) => {
     setIsLogin(false);
     navigate("/");
   };
+
+  useEffect(() => {
+    getUser();
+    getSurvey();
+  }, []);
 
   return (
     <div className="mt-20">

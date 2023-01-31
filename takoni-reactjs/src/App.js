@@ -1,13 +1,12 @@
+import "./App.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 import Navbar from "./components/Navbar";
 import Surveys from "./components/SurveyList";
 import About from "./pages/About";
 import AddNewSurvey from "./pages/AddNewSurvey";
 import Analytics from "./pages/Analytics";
-
 import Dashboard from "./pages/Dashboard";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
@@ -63,6 +62,7 @@ function App() {
       setIsLogin(true);
       getUser();
       getSurvey();
+      console.log("Get Render");
     }
   }, []);
 
@@ -81,7 +81,7 @@ function App() {
           path="/dashboard"
           element={
             <PrivateRoute>
-              <Dashboard setIsLogin={setIsLogin} user={user} />
+              <Dashboard setIsLogin={setIsLogin} user={user} getUser={getUser} getSurvey={getSurvey} />
             </PrivateRoute>
           }
         >
@@ -105,7 +105,7 @@ function App() {
             path="addnewsurvey"
             element={
               <PrivateRoute>
-                <AddNewSurvey setSurvey={setSurvey} surveys={surveys} />{" "}
+                <AddNewSurvey setSurvey={setSurvey} surveys={surveys} getSurvey={getSurvey} />
               </PrivateRoute>
             }
           />
@@ -113,7 +113,7 @@ function App() {
             path="survey/:id"
             element={
               <PrivateRoute>
-                <SurveyDetails surveys={surveys} setSurvey={setSurvey} />{" "}
+                <SurveyDetails surveys={surveys} setSurvey={setSurvey} getSurvey={getSurvey} />
               </PrivateRoute>
             }
           />

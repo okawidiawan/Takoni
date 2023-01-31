@@ -5,15 +5,15 @@ import Question from "../components/Question";
 import moment from "moment";
 import { ArrowLeftIcon, TrashIcon } from "@heroicons/react/24/outline";
 
-const SurveyDetails = ({ surveys, setSurvey }) => {
+const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const [survey, setSurveyS] = useState({});
+  const [surveyById, setSurveyById] = useState({});
   const [questions, setQuestions] = useState([]);
-  const [inputQuestion, setInputQuestion] = useState({});
+  const [inputQuestion, setInputQuestion] = useState([]);
 
-  let date = moment(survey.surveyDate).format("LLL");
+  let date = moment(surveyById.surveyDate).format("LLL");
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
         },
       })
       .then(({ data }) => {
-        setSurveyS(data);
+        setSurveyById(data);
       })
       .catch((error) => {
         console.log(error);
@@ -47,6 +47,7 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
       })
       .then(({ data }) => {
         setQuestions(data);
+        console.log("Success Add Question");
       })
       .catch((error) => {
         console.log(error);
@@ -76,7 +77,7 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
     axios
       .put(
         `http://192.168.100.14:8080/api/update/surveystatus`,
-        { id: survey.id },
+        { id: surveyById.id },
         {
           headers: {
             "Content-Type": "application/json",
@@ -90,6 +91,8 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
           return { ...state, status: state.status };
         });
         console.log("Success update");
+        getSurveyById();
+        getSurvey();
       })
       .catch((error) => {
         console.log(error);
@@ -106,14 +109,17 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
         config
       )
       .then((response) => {
-        console.log(response);
-        setQuestions([...questions, input]);
-        console.log("Success Add New Survey!");
-        console.log(questions);
-        console.log(input);
+        // console.log(response);
+        // setQuestions([...questions, input]);
+        setQuestions((state) => {
+          return [...state, input];
+        });
+        // console.log("Success Add New Survey!");
+        // console.log(questions);
+        // console.log(input);
       })
       .catch((error) => {
-        console.log("Gagal");
+        // console.log("Gagal");
         console.log(error);
       });
   };
@@ -121,7 +127,7 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
   const onCHangeHandler = (e) => {
     let { name, value } = e.target;
     setInputQuestion((state) => {
-      return { ...state, survey: { id: survey.id }, [name]: value };
+      return { ...state, survey: { id: surveyById.id }, [name]: value };
     });
   };
 
@@ -134,7 +140,7 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
   useEffect(() => {
     getSurveyById();
     getQuestionBySurveyId();
-  }, []);
+  }, [surveys]);
 
   return (
     <div className="flex w-full flex-col text-[#3E4154]">
@@ -145,21 +151,21 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
 
         <h1 className="text-center text-2xl font-bold text-[#3E4154]">Survey Details</h1>
 
-        <button className="absolute right-5" onClick={() => deleteSurvey(survey.id)}>
+        <button className="absolute right-5" onClick={() => deleteSurvey(surveyById.id)}>
           <TrashIcon className="h-8 w-8 text-[#3E4154]" />
         </button>
       </div>
       <div className="mx-auto flex w-4/5 justify-center ">
         <div className="mr-20">
-          <h1 className=" text-xl font-bold">{survey.title}</h1>
-          <p className="mb-5 text-sm font-medium text-black/10">{survey.subTitle}</p>
+          <h1 className=" text-xl font-bold">{surveyById.title}</h1>
+          <p className="mb-5 text-sm font-medium text-black/10">{surveyById.subTitle}</p>
           <h1 className="font-semibold">Description</h1>
-          <p className="mb-5 text-xs  font-semibold text-black/10">{survey.description}</p>
+          <p className="mb-5 text-xs  font-semibold text-black/10">{surveyById.description}</p>
           <h1 className="font-semibold">Date</h1>
           <p className="mb-5 text-xs  font-semibold text-black/10">{date}</p>
           <h1 className="font-semibold">Status</h1>
-          <p className={`mb-5 text-xs  font-semibold ${survey.status === "Waiting" ? "text-red-300" : "text-emerald-500"}`}>{survey.status}</p>
-          <button className={`rounded-md bg-emerald-300 px-4 py-1 font-semibold text-white shadow-md shadow-emerald-300/50 ${survey.status === "Waiting" ? "" : "hidden"}`} onClick={updateSurveyStatus}>
+          <p className={`mb-5 text-xs  font-semibold ${surveyById.status === "Waiting" ? "text-red-300" : "text-emerald-500"}`}>{surveyById.status}</p>
+          <button className={`rounded-md bg-emerald-300 px-4 py-1 font-semibold text-white shadow-md shadow-emerald-300/50 ${surveyById.status === "Waiting" ? "" : "hidden"}`} onClick={updateSurveyStatus}>
             Publish
           </button>
         </div>
@@ -169,7 +175,7 @@ const SurveyDetails = ({ surveys, setSurvey }) => {
           {questions.map((question, index) => (
             <Question key={question.id} question={question} index={index} />
           ))}
-          <form action="" className={`h-auto ${survey.status === "Waiting" ? "" : "hidden"}`} onSubmit={onSubmitHandler}>
+          <form action="" className={`h-auto ${surveyById.status === "Waiting" ? "" : "hidden"}`} onSubmit={onSubmitHandler}>
             <div className="mx-auto mb-5 flex w-[250px] flex-col">
               <input
                 type="text"
