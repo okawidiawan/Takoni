@@ -44,15 +44,26 @@ public class ResponseAnswerController {
         List<ResponseAnswer> responseAnswer = responseAnswerRepository.findQuestionByQuestionId(id);
         return ResponseEntity.ok(responseAnswer);
     }
-    
+
     @GetMapping("/survey/answer/{id}")
-    public ResponseEntity getAnswerBySurvey(@PathVariable Integer id, Principal principal){
+    public ResponseEntity getAnswerBySurvey(@PathVariable Integer id, Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
         List<ResponseAnswer> responseAnswer = responseAnswerRepository.findResponseBySurveyId(id);
+//        Optional<ResponseAnswer> rs =responseAnswerRepository.findById(id);
         System.out.println(responseAnswer);
         return ResponseEntity.ok(responseAnswer);
     }
 
+    @GetMapping("/survey/progress/{id}")
+    public ResponseEntity getProgressSurvey(@PathVariable Integer id, Principal principal) {
+        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+        List<ResponseAnswer> responseAnswer = responseAnswerRepository.findResponseBySurveyId(id);
+//        System.out.println(responseAnswer.);
+        Integer progress = 0;
+        System.out.println(responseAnswer.size());
+
+        return ResponseEntity.ok("Oke");
+    }
     @PostMapping("/add/survey/question/answer")
     public ResponseEntity addSurveyQuestionAnswer(@RequestBody ResponseAnswer questionAnswer, Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
@@ -60,9 +71,9 @@ public class ResponseAnswerController {
 
         List<ResponseAnswer> qaFromDb = responseAnswerRepository.findResponseByQuestionIdAndUser(questionAnswer.getQuestion().getId(), userLoggedIn);
 
-        System.out.println(qaFromDb);
-        System.out.println(qaFromDb.isEmpty());
-        System.out.println(question.getSurvey());
+//        System.out.println(qaFromDb);
+//        System.out.println(qaFromDb.isEmpty());
+//        System.out.println(question.getSurvey());
 
         if (qaFromDb.isEmpty()) {
             questionAnswer.setQuestion(question);

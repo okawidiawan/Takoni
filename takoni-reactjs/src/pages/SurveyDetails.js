@@ -4,6 +4,7 @@ import axios from "axios";
 import Question from "../components/Question";
 import moment from "moment";
 import { ArrowLeftIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/outline";
+import QuestionDetails from "../components/QuestionDetails";
 
 const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   const [surveyById, setSurveyById] = useState({});
   const [questions, setQuestions] = useState([]);
   const [inputQuestion, setInputQuestion] = useState([]);
+  const [responseAnswer, setResponseAnswer] = useState([]);
 
   let date = moment(surveyById.surveyDate).format("LLL");
   const config = {
@@ -124,6 +126,24 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
       });
   };
 
+  const getSurveyResponse = () => {
+    axios
+      .get(`http://localhost:8080/api/survey/answer/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("Authorization")}`,
+        },
+      })
+      .then(({ data }) => {
+        setResponseAnswer(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // console.log(id);
+
   const onCHangeHandler = (e) => {
     let { name, value } = e.target;
     setInputQuestion((state) => {
@@ -140,12 +160,20 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   useEffect(() => {
     getSurveyById();
     getQuestionBySurveyId();
+    getSurveyResponse();
   }, [surveys]);
+
+  // let target = surveyById.numOfRespondent;
+  // let currentRespondent = responseAnswer.length;
+
+  // let progress = Math.round((currentRespondent / target) * 100).toString();
+
+  // console.log(calculateProgress(responseAnswer));
 
   return (
     <div className="flex w-full flex-col text-[#3E4154]">
       <div className="relative mb-8 flex items-center justify-center border-b pt-2 pb-5">
-        <NavLink to="/dashboard" className="absolute left-5">
+        <NavLink to="/dashboard/surveys" className="absolute left-5">
           <ArrowLeftIcon className="h-8 w-8 text-[#3E4154]" />
         </NavLink>
 
@@ -158,13 +186,15 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
       <div className="mx-auto flex w-full justify-center">
         <div className="mr-20 w-[370px]">
           <h1 className=" text-xl font-bold">{surveyById.title}</h1>
-          <p className="mb-5 text-sm font-medium text-black/10">{surveyById.subTitle}</p>
+          <p className="mb-5 text-sm font-medium text-slate-400">{surveyById.subTitle}</p>
           <h1 className="font-semibold">Description</h1>
-          <p className="mb-5 text-xs  font-semibold text-black/10">{surveyById.description}</p>
+          <p className="mb-5 text-xs  font-medium text-slate-400">{surveyById.description}</p>
+          <h1 className="font-semibold">Target Respondent</h1>
+          <p className="mb-5 text-xs  font-medium text-slate-400">{surveyById.numOfRespondent} Respondent</p>
           <h1 className="font-semibold">Date</h1>
-          <p className="mb-5 text-xs  font-semibold text-black/10">{date}</p>
+          <p className="mb-5 text-xs  font-medium text-slate-400">{date}</p>
           <h1 className="font-semibold">Status</h1>
-          <p className={`mb-5 mt-2 w-fit rounded-md border-2 px-3 py-1 text-sm font-semibold ${surveyById.status === "Waiting" ? "border-slate-500/20 bg-slate-400 text-white" : "border-emerald-600/30 bg-emerald-500 text-white"}`}>
+          <p className={`mb-5 w-fit rounded-md border-2 px-3 py-1 text-sm font-semibold ${surveyById.status === "Waiting" ? "border-slate-500/20 bg-slate-400 text-white" : "border-emerald-600/30 bg-emerald-500 text-white"}`}>
             {surveyById.status}
           </p>
           <button
@@ -173,6 +203,18 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
           >
             Publish
           </button>
+
+          {/* <div className={`${surveyById.status === "Published" ? "" : "hidden"}`}>
+            <div className="flex w-[300px] items-center justify-between">
+              <h1 className="font-semibold">Progress</h1>
+              <p className="text-xs">
+                {currentRespondent} / {target}
+              </p>
+            </div>
+            <div className="relative z-50 mt-2 h-6 w-[300px] overflow-hidden rounded-md border border-black/10 bg-slate-200 text-center text-[13px] font-bold shadow-sm">
+              {progress}%<div className={`absolute top-0 left-0 -z-10 flex h-full items-center justify-center rounded-l-md bg-emerald-300 w=[${progress}]%`}></div>
+            </div>
+          </div> */}
         </div>
         <div className="w-[700px]">
           <h1 className="mb-2 text-xl font-semibold">Question</h1>
@@ -180,6 +222,7 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
           {questions.map((question, index) => (
             <Question key={question.id} question={question} index={index} questions={questions} setQuestions={setQuestions} />
           ))}
+
           <form action="" className={`mt-5 h-auto ${surveyById.status === "Waiting" ? "" : "hidden"}`} onSubmit={onSubmitHandler}>
             <div className="mb-5 flex w-fit flex-col">
               <textarea

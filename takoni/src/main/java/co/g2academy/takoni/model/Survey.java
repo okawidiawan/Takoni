@@ -37,6 +37,9 @@ public class Survey implements Serializable {
 
     @Column(nullable = false)
     private Integer numOfRespondent;
+    
+    @Column
+    private Integer totalResponse = 0;
 
     @Column(nullable = false)
     private String status = "Waiting";
@@ -109,4 +112,14 @@ public class Survey implements Serializable {
     public void setResearcher(User researcher) {
         this.researcher = researcher;
     }
+
+    public Integer getTotalResponse() {
+        return totalResponse;
+    }
+
+    public void setTotalResponse(Integer totalResponse) {
+        this.totalResponse = totalResponse;
+    }
+    
+    
 }

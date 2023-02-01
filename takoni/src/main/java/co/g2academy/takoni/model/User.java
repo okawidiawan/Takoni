@@ -18,31 +18,34 @@ public class User implements Serializable {
     @Column(length = 100, nullable = false)
     private String username;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(length = 100, nullable = false)
     private String password;
 
     @Column(length = 100, nullable = false)
     private String name;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(name = "birthdate", columnDefinition = "DATE")
     private LocalDate birthdate;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(length = 100)
     private String city;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(length = 200)
     private String address;
 
-    @JsonIgnore
+//    @JsonIgnore
     @Column(length = 100)
     private String phoneNumber;
 
     @Column
     private String ses;
+
+    @Column
+    private String gender;
 
     @JsonIgnore
     @Column
@@ -143,6 +146,14 @@ public class User implements Serializable {
         LocalDate currentDate = LocalDate.now();
         Integer age = Period.between(birthdate, currentDate).getYears();
         this.setAge(age);
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
 }

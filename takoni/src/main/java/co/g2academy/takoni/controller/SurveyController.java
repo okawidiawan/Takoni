@@ -1,9 +1,11 @@
 package co.g2academy.takoni.controller;
 
 import co.g2academy.takoni.model.Question;
+import co.g2academy.takoni.model.ResponseAnswer;
 import co.g2academy.takoni.model.Survey;
 import co.g2academy.takoni.model.User;
 import co.g2academy.takoni.repository.QuestionRepository;
+import co.g2academy.takoni.repository.ResponseAnswerRepository;
 import co.g2academy.takoni.repository.SurveyRepository;
 import co.g2academy.takoni.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class SurveyController {
     @Autowired
     private QuestionRepository questionRepository;
 
+    @Autowired
+    private ResponseAnswerRepository responseAnswerRepository;
+
 //    @GetMapping("/survey")
 //    public List<Survey> getSurvey(Principal principal) {
 //        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
@@ -42,9 +47,9 @@ public class SurveyController {
         List<Survey> survey = surveyRepository.getAllSurveyByResearcher(userLoggedIn);
         return ResponseEntity.ok(survey);
     }
-    
+
     @GetMapping("/user/survey")
-    public ResponseEntity getSurveyUser(Principal principal){
+    public ResponseEntity getSurveyUser(Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
         List<Survey> survey = surveyRepository.getSurveyByStatus("Published");
         return ResponseEntity.ok(survey);
@@ -95,7 +100,8 @@ public class SurveyController {
             Survey surveyFromDb = opt.get();
             if (surveyFromDb.getResearcher().getUsername().equals(principal.getName())) {
                 List<Question> questionList = questionRepository.getBySurveyId(surveyFromDb.getId());
-                System.out.println(questionList);
+                List<ResponseAnswer> responseAnswerList = responseAnswerRepository.findResponseBySurveyId(id);
+                responseAnswerRepository.deleteAll(responseAnswerList);
                 questionRepository.deleteAll(questionList);
                 surveyRepository.deleteById(id);
                 return ResponseEntity.ok("Deleted");

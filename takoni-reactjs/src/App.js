@@ -14,6 +14,7 @@ import Pricing from "./pages/Pricing";
 import PrivateRoute from "./pages/PrivateRoute";
 import Register from "./pages/Register";
 import SurveyDetails from "./pages/SurveyDetails";
+import QuestionDetails from "./components/QuestionDetails";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -117,11 +118,23 @@ function App() {
               </PrivateRoute>
             }
           />
+
           <Route
             path="survey/:id"
             element={
               <PrivateRoute>
                 <SurveyDetails surveys={surveys} setSurvey={setSurvey} getSurvey={getSurvey} />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="survey/:id/:id"
+            element={
+              <PrivateRoute>
+                <QuestionDetails
+                //  surveys={surveys}
+                />
               </PrivateRoute>
             }
           />

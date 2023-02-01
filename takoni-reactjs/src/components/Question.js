@@ -1,10 +1,10 @@
 import React from "react";
-import { PencilSquareIcon, XMarkIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { XCircleIcon, ListBulletIcon, MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
 
 const Question = ({ question, index, questions, setQuestions }) => {
-  // console.log(questions);
-  console.log(question.survey.status);
+  const surveyId = question.survey.id;
 
   const deleteQuestion = (idInput) => {
     axios
@@ -24,8 +24,8 @@ const Question = ({ question, index, questions, setQuestions }) => {
     console.log(question.id);
   };
 
-  const editQuestionButton = () => {
-    console.log(question.id);
+  const seeQuestionDetails = () => {
+    // console.log(question.id);
   };
 
   return (
@@ -37,6 +37,9 @@ const Question = ({ question, index, questions, setQuestions }) => {
       <button className={`ml-5 h-fit  text-black/40 ${question.survey.status === "Waiting" ? "" : "hidden"}`} onClick={() => deleteQuestion(question.id)}>
         <XCircleIcon className="w-5 " />
       </button>
+      <Link to={`/dashboard/survey/${surveyId}/${question.id}`} className={`h-fit  text-black/40 ${question.survey.status === "Published" ? "" : "hidden"}`} onClick={() => seeQuestionDetails()}>
+        <MagnifyingGlassCircleIcon className="w-5 " />
+      </Link>
     </div>
   );
 };
