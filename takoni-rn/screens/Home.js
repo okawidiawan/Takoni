@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import { View, StyleSheet, Image, Text, TouchableOpacity, Alert, FlatList } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import axios from "axios";
@@ -95,7 +96,12 @@ const Home = ({ navigation }) => {
           <Feather name="power" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <Text style={[styles.takeSurveyText, { marginTop: 20, marginBottom: 30 }]}>Take a Survey</Text>
+      <View style={{ flexDirection: "row", marginTop: 20, marginBottom: 30, width: "100%", paddingHorizontal: 20, justifyContent: "space-around", alignItems: "center" }}>
+        <Text style={[styles.takeSurveyText, {}]}>Take a Survey</Text>
+        <TouchableOpacity onPress={getSurvey}>
+          <MaterialCommunityIcons name="reload" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
       {/* <View style={{ flex: 1, justifyContent: "center" }}>
         <TouchableOpacity style={styles.takeSurveyBtn} onPress={toSurveyList}>
           <Text style={styles.takeSurveyText}>Take a Survey</Text>

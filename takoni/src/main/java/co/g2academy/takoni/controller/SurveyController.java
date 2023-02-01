@@ -55,7 +55,6 @@ public class SurveyController {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
         Survey survey = surveyRepository.findById(id).get();
         List<Question> question = questionRepository.getBySurveyId(id);
-
         if (userLoggedIn.getId() == survey.getResearcher().getId()) {
             return ResponseEntity.ok(survey);
         }

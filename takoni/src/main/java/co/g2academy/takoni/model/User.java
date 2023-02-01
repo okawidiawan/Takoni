@@ -1,5 +1,6 @@
 package co.g2academy.takoni.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
@@ -17,27 +18,33 @@ public class User implements Serializable {
     @Column(length = 100, nullable = false)
     private String username;
 
+    @JsonIgnore
     @Column(length = 100, nullable = false)
     private String password;
 
     @Column(length = 100, nullable = false)
     private String name;
 
+    @JsonIgnore
     @Column(name = "birthdate", columnDefinition = "DATE")
     private LocalDate birthdate;
 
+    @JsonIgnore
     @Column(length = 100)
     private String city;
 
+    @JsonIgnore
     @Column(length = 200)
     private String address;
 
+    @JsonIgnore
     @Column(length = 100)
     private String phoneNumber;
 
     @Column
     private String ses;
 
+    @JsonIgnore
     @Column
     private Integer pointReward = 0;
 
@@ -132,7 +139,7 @@ public class User implements Serializable {
         this.age = age;
     }
 
-    public void calculateAge(LocalDate birthdate){
+    public void calculateAge(LocalDate birthdate) {
         LocalDate currentDate = LocalDate.now();
         Integer age = Period.between(birthdate, currentDate).getYears();
         this.setAge(age);

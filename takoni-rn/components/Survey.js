@@ -20,9 +20,15 @@ const Survey = ({ survey }) => {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{survey.title}</Text>
-      <Text style={styles.subTitle}>{survey.subTitle}</Text>
-      <Text style={styles.description}>{survey.description}</Text>
+      <Text numberOfLines={1} style={styles.title}>
+        {survey.title}
+      </Text>
+      <Text numberOfLines={1} style={styles.subTitle}>
+        {survey.subTitle}
+      </Text>
+      <Text numberOfLines={1} style={styles.description}>
+        {survey.description}
+      </Text>
     </View>
   );
 };
@@ -33,7 +39,7 @@ const styles = StyleSheet.create({
     width: 350,
     borderWidth: 1,
     paddingVertical: 15,
-    paddingLeft: 15,
+    paddingHorizontal: 15,
     marginBottom: 20,
     borderColor: "#DBDEE5",
     borderRadius: 10,

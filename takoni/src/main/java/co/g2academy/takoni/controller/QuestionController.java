@@ -39,9 +39,6 @@ public class QuestionController {
     public ResponseEntity<String> addQuestionToSurvey(@RequestBody Question question, Principal principal) {
         User user = userRepository.findUserByUsername(principal.getName());
         Survey survey = surveyRepository.findById(question.getSurvey().getId()).get();
-        System.out.println(survey.getResearcher().getId());
-        System.out.println(user.getId());
-
         if (user.getId().equals(survey.getResearcher().getId())) {
             question.setSurvey(survey);
             questionRepository.save(question);
@@ -59,8 +56,6 @@ public class QuestionController {
         if (userLoggedIn.getId() == survey.getResearcher().getId()) {
             return ResponseEntity.ok(question);
         }
-
-        System.out.println();
         return ResponseEntity.badRequest().body("Failed to get Question");
     }
 
