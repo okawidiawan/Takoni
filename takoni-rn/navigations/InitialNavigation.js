@@ -9,6 +9,8 @@ import Home from "../screens/Home";
 import { useDispatch, useSelector } from "react-redux";
 import SurveyList from "../screens/SurveyList";
 import Welcome from "../screens/Welcome";
+import TakeSurvey from "../components/TakeSurvey";
+import SurveyDetails from "../screens/SurveyDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,7 +39,9 @@ const InitialNavigation = () => {
         {/* <Stack.Screen options={{ headerShown: false }} name="Welcome" component={Welcome} /> */}
         {!isLogin ? <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} /> : <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />}
         <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
-        <Stack.Screen options={{ headerTitleAlign: "center", headerTitle: "Survey List" }} name="SurveyList" component={SurveyList} />
+        <Stack.Screen options={{ headerShown: false, headerTitleAlign: "center", headerTitle: "Survey List" }} name="SurveyList" component={SurveyList} />
+        <Stack.Screen options={{ headerTitleAlign: "center", headerTitle: "Take Survey" }} name="TakeSurvey" component={TakeSurvey} />
+        <Stack.Screen options={{ headerTitleAlign: "center", headerTitle: "Survey Detail" }} name="SurveyDetail" component={SurveyDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

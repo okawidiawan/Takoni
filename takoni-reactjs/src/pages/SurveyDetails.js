@@ -16,6 +16,7 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   const [responseAnswer, setResponseAnswer] = useState([]);
 
   let date = moment(surveyById.surveyDate).format("LLL");
+
   const config = {
     headers: {
       "Content-Type": "application/json",

@@ -109,7 +109,7 @@ const Home = ({ navigation }) => {
       <TouchableOpacity style={{ marginTop: 80, justifyContent: "center", alignItems: "center" }}>
         <Feather name="power" color="#34D399" style={{ fontSize: 30 }} />
       </TouchableOpacity>
-      <Text style={[styles.nameSectionText, { fontSize: 18, color: "#3E4154" }]}>Logout</Text>
+      <Text style={[styles.nameSectionText, { fontSize: 18, color: "#3E4154" }]}>logout</Text>
     </View>
   );
 };

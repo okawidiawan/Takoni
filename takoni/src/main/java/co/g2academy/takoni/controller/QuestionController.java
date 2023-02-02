@@ -53,10 +53,7 @@ public class QuestionController {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
         Survey survey = surveyRepository.findById(id).get();
         List<Question> question = questionRepository.getBySurveyId(id);
-        if (userLoggedIn.getId() == survey.getResearcher().getId()) {
-            return ResponseEntity.ok(question);
-        }
-        return ResponseEntity.badRequest().body("Failed to get Question");
+        return ResponseEntity.ok(question);
     }
 
     @DeleteMapping("delete/survey/question/{id}")
