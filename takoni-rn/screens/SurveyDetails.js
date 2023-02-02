@@ -1,8 +1,9 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import Question from "../components/Question";
+import { Ionicons } from "@expo/vector-icons";
 
 const SurveyDetails = ({ navigation, route }) => {
   const [question, setQuestion] = useState();
@@ -25,6 +26,9 @@ const SurveyDetails = ({ navigation, route }) => {
   };
 
   //   console.log(question);
+  const backToSurveyList = () => {
+    navigation.navigate("SurveyList");
+  };
 
   useEffect(() => {
     getQuestion();
@@ -32,7 +36,23 @@ const SurveyDetails = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList showsVerticalScrollIndicator={false} contentContainerStyle={{ justifyContent: "center" }} data={question} renderItem={({ item }) => <Question navigation={navigation} question={item} />} keyExtractor={(item) => item.id} />
+      <View style={{ flexDirection: "row", width: 350, justifyContent: "space-between", alignItems: "center" }}>
+        <TouchableOpacity onPress={backToSurveyList}>
+          <Ionicons name="ios-chevron-back" size={34} color="black" style={{}} />
+        </TouchableOpacity>
+        <Text style={{ fontFamily: "Quicksand-Bold", fontSize: 28 }}>Question List</Text>
+        <TouchableWithoutFeedback style={{ opacity: 0 }}>
+          <Ionicons name="ios-chevron-back" size={34} color="black" style={{ opacity: 0 }} />
+        </TouchableWithoutFeedback>
+      </View>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ justifyContent: "center", marginTop: 30, paddingBottom: 30 }}
+        data={question}
+        renderItem={({ item }) => <Question navigation={navigation} question={item} />}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 };
@@ -42,6 +62,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 30,
+    backgroundColor: "#F4F7FF",
+    // paddingBottom: 30,
   },
 });
 

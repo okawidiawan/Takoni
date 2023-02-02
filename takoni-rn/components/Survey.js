@@ -10,7 +10,7 @@ const Survey = ({ survey, navigation }) => {
     "Quicksand-Semibold": require("../assets/fonts/Quicksand-SemiBold.ttf"),
     Quicksand: require("../assets/fonts/Quicksand-Regular.ttf"),
   });
-  let date = moment(survey.surveyDate).format("LL");
+  let date = moment(survey.surveyDate).format("LLL");
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -41,10 +41,10 @@ const Survey = ({ survey, navigation }) => {
         </View>
 
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <Text numberOfLines={2} style={styles.description}>
+          <Text numberOfLines={2} style={[styles.description, { opacity: 0.3 }]}>
             {date}
           </Text>
-          <TouchableOpacity style={{ backgroundColor: "#34D399", paddingHorizontal: 15, paddingVertical: 10, borderRadius: 8 }}>
+          <TouchableOpacity style={{ backgroundColor: "#34D399", paddingHorizontal: 15, paddingVertical: 10, borderRadius: 8 }} onPress={toTakeSurvey}>
             <Text style={{ fontFamily: "Quicksand-Bold", color: "white" }}>Take Survey</Text>
           </TouchableOpacity>
         </View>

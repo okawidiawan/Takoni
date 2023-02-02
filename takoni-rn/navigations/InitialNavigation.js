@@ -40,8 +40,8 @@ const InitialNavigation = () => {
         {!isLogin ? <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} /> : <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />}
         <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
         <Stack.Screen options={{ headerShown: false, headerTitleAlign: "center", headerTitle: "Survey List" }} name="SurveyList" component={SurveyList} />
-        <Stack.Screen options={{ headerTitleAlign: "center", headerTitle: "Take Survey" }} name="TakeSurvey" component={TakeSurvey} />
-        <Stack.Screen options={{ headerTitleAlign: "center", headerTitle: "Survey Detail" }} name="SurveyDetail" component={SurveyDetails} />
+        <Stack.Screen options={{ headerShown: false, headerTitleAlign: "center", headerTitle: "Take Survey" }} name="TakeSurvey" component={TakeSurvey} />
+        <Stack.Screen options={{ headerShown: false, headerTitleAlign: "center", headerTitle: "Survey Detail" }} name="SurveyDetail" component={SurveyDetails} />
       </Stack.Navigator>
     </NavigationContainer>
   );

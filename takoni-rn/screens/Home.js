@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useFonts } from "expo-font";
-import { View, StyleSheet, Image, Text, TouchableOpacity, Alert, FlatList } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity, Alert, FlatList, StatusBar } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -84,6 +84,8 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="auto" />
+
       <View style={styles.header}>
         <Image style={{ width: 100, height: 40, resizeMode: "contain" }} source={require("../assets/img/Logo-Lower-Green.png")} />
       </View>
@@ -107,7 +109,7 @@ const Home = ({ navigation }) => {
         <Text style={[styles.nameSectionText, { fontSize: 28, color: "white" }]}>Take a Survey</Text>
       </TouchableOpacity>
       <TouchableOpacity style={{ marginTop: 80, justifyContent: "center", alignItems: "center" }}>
-        <Feather name="power" color="#34D399" style={{ fontSize: 30 }} />
+        <Feather name="power" color="#34D399" style={{ fontSize: 30 }} onPress={logout} />
       </TouchableOpacity>
       <Text style={[styles.nameSectionText, { fontSize: 18, color: "#3E4154" }]}>logout</Text>
     </View>
@@ -117,7 +119,7 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 0,
     alignItems: "center",
     backgroundColor: "#F4F7FF",
   },

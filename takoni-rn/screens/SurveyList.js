@@ -54,7 +54,7 @@ const SurveyList = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", width: "90%", alignItems: "center", marginTop: 40, marginBottom: 15 }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", width: "90%", alignItems: "center", paddingTop: 30, marginBottom: 15 }}>
         <TouchableOpacity onPress={toSurveyList}>
           <Ionicons name="ios-chevron-back" size={34} color="black" style={{}} />
         </TouchableOpacity>
@@ -62,7 +62,7 @@ const SurveyList = ({ navigation }) => {
         <Text style={styles.text}>Survey List</Text>
 
         <TouchableOpacity onPress={getSurvey}>
-          <MaterialCommunityIcons name="reload" size={34} color="black" />
+          <MaterialCommunityIcons name="reload" size={32} color="black" />
         </TouchableOpacity>
       </View>
       <FlatList showsVerticalScrollIndicator={false} contentContainerStyle={{ justifyContent: "center" }} data={surveys} renderItem={({ item }) => <Survey navigation={navigation} survey={item} />} keyExtractor={(item) => item.id} />
