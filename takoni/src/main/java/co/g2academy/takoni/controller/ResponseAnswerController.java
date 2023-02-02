@@ -2,6 +2,7 @@ package co.g2academy.takoni.controller;
 
 import co.g2academy.takoni.model.Question;
 import co.g2academy.takoni.model.ResponseAnswer;
+import co.g2academy.takoni.model.Survey;
 import co.g2academy.takoni.model.User;
 import co.g2academy.takoni.repository.QuestionRepository;
 import co.g2academy.takoni.repository.SurveyRepository;
@@ -54,16 +55,18 @@ public class ResponseAnswerController {
         return ResponseEntity.ok(responseAnswer);
     }
 
-    @GetMapping("/survey/progress/{id}")
-    public ResponseEntity getProgressSurvey(@PathVariable Integer id, Principal principal) {
-        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
-        List<ResponseAnswer> responseAnswer = responseAnswerRepository.findResponseBySurveyId(id);
+//    @GetMapping("/survey/progress/{id}")
+//    public ResponseEntity getProgressSurvey(@PathVariable Integer id, Principal principal) {
+//        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
+//        List<ResponseAnswer> responseAnswer = responseAnswerRepository.findResponseBySurveyId(id);
 //        System.out.println(responseAnswer.);
-        Integer progress = 0;
-        System.out.println(responseAnswer.size());
+//        Integer progress = 0;
+//        System.out.println(responseAnswer.size());
+//
+//        return ResponseEntity.ok("Oke");
+//    }
 
-        return ResponseEntity.ok("Oke");
-    }
+
     @PostMapping("/add/survey/question/answer")
     public ResponseEntity addSurveyQuestionAnswer(@RequestBody ResponseAnswer questionAnswer, Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
@@ -74,7 +77,6 @@ public class ResponseAnswerController {
 //        System.out.println(qaFromDb);
 //        System.out.println(qaFromDb.isEmpty());
 //        System.out.println(question.getSurvey());
-
         if (qaFromDb.isEmpty()) {
             questionAnswer.setQuestion(question);
             questionAnswer.setSurvey(question.getSurvey());

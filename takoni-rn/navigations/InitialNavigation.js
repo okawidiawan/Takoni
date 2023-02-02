@@ -8,6 +8,7 @@ import Register from "../screens/Register";
 import Home from "../screens/Home";
 import { useDispatch, useSelector } from "react-redux";
 import SurveyList from "../screens/SurveyList";
+import Welcome from "../screens/Welcome";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,9 +34,10 @@ const InitialNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+        {/* <Stack.Screen options={{ headerShown: false }} name="Welcome" component={Welcome} /> */}
         {!isLogin ? <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} /> : <Stack.Screen options={{ headerShown: false }} name="Home" component={Home} />}
         <Stack.Screen options={{ headerShown: false }} name="Register" component={Register} />
-        <Stack.Screen options={{}} name="TakeSurvey" component={SurveyList} />
+        <Stack.Screen options={{ headerTitleAlign: "center", headerTitle: "Survey List" }} name="SurveyList" component={SurveyList} />
       </Stack.Navigator>
     </NavigationContainer>
   );

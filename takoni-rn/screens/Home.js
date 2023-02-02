@@ -79,35 +79,37 @@ const Home = ({ navigation }) => {
   };
 
   const toSurveyList = () => {
-    navigation.navigate("TakeSurvey");
+    navigation.navigate("SurveyList");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image style={{ width: 100, height: 25, resizeMode: "contain" }} source={require("../assets/img/Logo-Lower-Green.png")} />
+        <Image style={{ width: 100, height: 40, resizeMode: "contain" }} source={require("../assets/img/Logo-Lower-Green.png")} />
+      </View>
+      <View style={{ marginTop: 50, width: 150, height: 150, overflow: "hidden", justifyContent: "center", alignItems: "center" }}>
+        {user.gender === "Male" ? (
+          <Image style={{ width: 150, height: 150, resizeMode: "contain" }} source={require("../assets/img/pic-male.png")} />
+        ) : (
+          <Image style={{ width: 150, height: 150, resizeMode: "contain" }} source={require("../assets/img/pic-female.png")} />
+        )}
       </View>
       <View style={styles.nameSection}>
         <View style={styles.nameSectionL}>
-          <Text style={[styles.nameSectionText, { fontSize: 16, fontFamily: "Quicksand" }]}>Welcome,</Text>
+          <Text style={[styles.nameSectionText, { fontSize: 30, fontFamily: "Quicksand" }]}>Welcome,</Text>
           <Text style={styles.nameSectionText}>{user.name}</Text>
         </View>
-        <TouchableOpacity onPress={logout}>
-          <Feather name="power" size={24} color="black" />
-        </TouchableOpacity>
       </View>
-      <View style={{ flexDirection: "row", marginTop: 20, marginBottom: 30, width: "100%", paddingHorizontal: 20, justifyContent: "space-around", alignItems: "center" }}>
-        <Text style={[styles.takeSurveyText, {}]}>Take a Survey</Text>
-        <TouchableOpacity onPress={getSurvey}>
-          <MaterialCommunityIcons name="reload" size={24} color="black" />
-        </TouchableOpacity>
-      </View>
-      {/* <View style={{ flex: 1, justifyContent: "center" }}>
-        <TouchableOpacity style={styles.takeSurveyBtn} onPress={toSurveyList}>
-          <Text style={styles.takeSurveyText}>Take a Survey</Text>
-        </TouchableOpacity>
-      </View> */}
-      <FlatList showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }} data={surveys} renderItem={({ item }) => <Survey survey={item} />} keyExtractor={(item) => item.id} />
+      {/* <TouchableOpacity onPress={logout}>
+        <Feather name="power" size={24} color="#34D399" />
+      </TouchableOpacity> */}
+      <TouchableOpacity style={{ backgroundColor: "#34D399", paddingVertical: 15, paddingHorizontal: 30, borderRadius: 50, marginTop: 50 }} onPress={toSurveyList}>
+        <Text style={[styles.nameSectionText, { fontSize: 28, color: "white" }]}>Take a Survey</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{ marginTop: 80, justifyContent: "center", alignItems: "center" }}>
+        <Feather name="power" color="#34D399" style={{ fontSize: 30 }} />
+      </TouchableOpacity>
+      <Text style={[styles.nameSectionText, { fontSize: 18, color: "#3E4154" }]}>Logout</Text>
     </View>
   );
 };
@@ -119,6 +121,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F4F7FF",
   },
+
   header: {
     borderTopWidth: 1,
     borderBottomWidth: 1,
@@ -132,21 +135,23 @@ const styles = StyleSheet.create({
   nameSection: {
     width: "90%",
     paddingHorizontal: 20,
-    paddingVertical: 15,
-    borderColor: "#DBDEE5",
+    // paddingVertical: 15,
+    // borderColor: "#DBDEE5",
     marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "white",
-    borderWidth: 1,
     borderRadius: 10,
   },
 
-  nameSectionL: {},
+  nameSectionL: {
+    width: "100%",
+  },
+
   nameSectionText: {
-    fontSize: 20,
+    fontSize: 34,
     fontFamily: "Quicksand-Semibold",
+    textAlign: "center",
+    // backgroundColor: "red",
   },
 
   takeSurveyBtn: {
