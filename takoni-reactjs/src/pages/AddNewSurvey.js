@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
   const [inputNewSurvey, setInputNewSurvey] = useState([]);
+  const navigate = useNavigate();
 
   const config = {
     headers: {
@@ -24,13 +27,12 @@ const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
         config
       )
       .then((response) => {
-        // console.log(response);
-        // setSurvey([...surveys, input]);
         setSurvey((state) => {
           return [...state, input];
         });
+        Swal.fire("Survey Added!");
+        navigate("/dashboard/surveys");
 
-        console.log("Success Add New Survey!");
         getSurvey();
       })
       .catch((error) => {
@@ -61,8 +63,8 @@ const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
     <div className="mx-auto flex  flex-col justify-center">
       <h1 className="border-b pt-2 pb-5 text-center text-2xl font-bold text-[#3E4154]">Add New Survey</h1>
       <div className="mx-auto flex justify-center ">
-        <form action="" className="order-1 h-auto  w-[400px] rounded-l-md bg-white py-10 " onSubmit={onSubmitHandler}>
-          <div className="mx-auto mb-5 flex w-[250px] flex-col">
+        <form action="" className="order-1 h-auto  w-[800px] rounded-l-md bg-white py-10 " onSubmit={onSubmitHandler}>
+          <div className="mx-auto mb-5 flex w-[500px] flex-col">
             <label htmlFor="title" className="mb-1 font-medium">
               Project Title
             </label>
@@ -70,14 +72,14 @@ const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
               type="text"
               name="title"
               id="title"
-              className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
+              className="h-8 w-[500px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
               placeholder="enter project title"
               onChange={onCHangeHandler}
               // value={inputSurvey.title}
             />
           </div>
 
-          <div className="mx-auto mb-5 flex w-[250px] flex-col">
+          <div className="mx-auto mb-5 flex w-[500px] flex-col">
             <label htmlFor="subTitle" className="mb-1 font-medium">
               Sub Title
             </label>
@@ -85,7 +87,7 @@ const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
               type="text"
               name="subTitle"
               id="subTitle"
-              className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
+              className="h-8 w-[500px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
               placeholder="enter project subtitle "
               onChange={onCHangeHandler}
               // value={inputSurvey.subTitle}
@@ -93,15 +95,15 @@ const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
             />
           </div>
 
-          <div className="mx-auto mb-5 flex w-[250px] flex-col">
+          <div className="mx-auto mb-5 flex w-[500px] flex-col">
             <label htmlFor="description" className="mb-1 font-medium">
               Project Description
             </label>
-            <input
+            <textarea
               type="text"
               name="description"
               id="description"
-              className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
+              className=" h-[100px] w-[500px] resize-none rounded-md border border-black/10 bg-[#f4f7ff] p-2 text-sm shadow-md placeholder:text-slate-300"
               placeholder="enter project description"
               onChange={onCHangeHandler}
               // value={inputSurvey.description}
@@ -109,7 +111,7 @@ const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
             />
           </div>
 
-          <div className="mx-auto mb-5 flex w-[250px] flex-col">
+          <div className="mx-auto mb-5 flex w-[500px] flex-col">
             <label htmlFor="numOfRespondent" className="mb-1 font-medium">
               Target of Respondent
             </label>
@@ -117,7 +119,7 @@ const AddNewSurvey = ({ setSurvey, surveys, getSurvey }) => {
               type="text"
               name="numOfRespondent"
               id="numOfRespondent"
-              className="h-8 w-[250px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
+              className="h-8 w-[500px] rounded-md border border-black/10 bg-[#f4f7ff] pl-2 text-sm shadow-md placeholder:text-slate-300"
               placeholder="enter project target respondent"
               onChange={onCHangeHandler}
               // value={inputSurvey.numOfRespondent}

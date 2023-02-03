@@ -5,6 +5,7 @@ import Question from "../components/Question";
 import moment from "moment";
 import { ArrowLeftIcon, TrashIcon, PlusIcon } from "@heroicons/react/24/outline";
 import QuestionDetails from "../components/QuestionDetails";
+import Swal from "sweetalert2";
 
 const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   const [responseAnswer, setResponseAnswer] = useState([]);
 
   let date = moment(surveyById.surveyDate).format("LLL");
+
+  const arrSurvey = responseAnswer;
 
   const config = {
     headers: {
@@ -89,10 +92,12 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
       )
       .then(() => {
         // changeStatus(survey.id, "Published")
+
         setSurvey((state) => {
           return { ...state, status: state.status };
         });
         console.log("Success update");
+        Swal.fire("Your Survey is Published");
         getSurveyById();
         getSurvey();
       })
@@ -117,6 +122,7 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
           return [...state, input];
         });
         getQuestionBySurveyId();
+        Array.from(document.querySelectorAll("input")).forEach((input) => (input.value = ""));
         // console.log("Success Add New Survey!");
         // console.log(questions);
         // console.log(input);
@@ -155,7 +161,24 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
     addQuestion(inputQuestion);
-    Array.from(document.querySelectorAll("input")).forEach((input) => (input.value = ""));
+    Array.from(document.querySelectorAll("textarea")).forEach((textarea) => (textarea.value = ""));
+  };
+
+  const confirmationDelete = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#fafafa",
+      cancelButtonColor: "#71717a",
+      confirmButtonText: "Yes!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        deleteSurvey(surveyById.id);
+      }
+    });
   };
 
   useEffect(() => {
@@ -180,7 +203,7 @@ const SurveyDetails = ({ surveys, setSurvey, getSurvey }) => {
 
         <h1 className="text-center text-2xl font-bold text-[#3E4154]">Survey Details</h1>
 
-        <button className="absolute right-5 before:absolute before:-top-1 before:-right-1 before:h-7 before:w-7 before:rounded-full before:bg-emerald-300/40" onClick={() => deleteSurvey(surveyById.id)}>
+        <button className="absolute right-5 before:absolute before:-top-1 before:-right-1 before:h-7 before:w-7 before:rounded-full before:bg-emerald-300/40" onClick={confirmationDelete}>
           <TrashIcon className="h-8 w-8 text-[#3E4154]" />
         </button>
       </div>

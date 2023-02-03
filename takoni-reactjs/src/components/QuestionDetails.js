@@ -48,7 +48,7 @@ const QuestionDetails = () => {
         <h1 className="text-center text-2xl font-bold text-[#3E4154]">Question Details</h1>
       </div>
 
-      <div>
+      <div className="px-5">
         <h1 className="mb-2 text-xl font-semibold">Question Response Answer</h1>
         {questionDetail.map((question, index) => (
           <div key={question.id} className="mb-5">
@@ -58,6 +58,7 @@ const QuestionDetails = () => {
             {/* <h1 className="text-sm">Respondent Name</h1> */}
             <p className="text-xs">Gender : {question.user.gender}.</p>
             <p className="text-xs">Age : {question.user.age}.</p>
+            <p className="text-xs">SES : {question.user.ses}.</p>
             <p className="text-xs font-semibold">Answer : {question.answerText}.</p>
           </div>
         ))}

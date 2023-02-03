@@ -14,3 +14,14 @@ body {
   width: 100px;
   height: 40px;
 }
+
+.swal2-styled.swal2-cancel {
+  padding: 0 !important;
+  background-color: #3e4154 !important;
+  width: 100px;
+  height: 40px;
+}
+
+.swal2-container.swal2-center > .swal2-popup {
+  width: 350px;
+}

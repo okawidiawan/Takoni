@@ -56,7 +56,7 @@ const Question = ({ question }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={{ width: "100%" }}>
-          <Text style={{ fontFamily: "Quicksand-Bold", fontSize: 16, textAlign: "justify", opacity: 0.8, marginBottom: 20 }}>{question.questionText}</Text>
+          <Text style={{ fontFamily: "Quicksand-Bold", fontSize: 20, opacity: 0.8, marginBottom: 20 }}>{question.questionText}</Text>
           <TextInput multiline={true} style={styles.inputText} onChangeText={(newValue) => setInputAnswer({ question: { id: question.id }, answerText: newValue })} />
         </View>
         <TouchableOpacity style={styles.btn} onPress={() => submitAnswer(inputAnswer)}>

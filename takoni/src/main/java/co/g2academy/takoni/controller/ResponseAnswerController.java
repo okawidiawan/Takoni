@@ -59,10 +59,6 @@ public class ResponseAnswerController {
 //    public ResponseEntity getProgressSurvey(@PathVariable Integer id, Principal principal) {
 //        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
 //        List<ResponseAnswer> responseAnswer = responseAnswerRepository.findResponseBySurveyId(id);
-//        System.out.println(responseAnswer.);
-//        Integer progress = 0;
-//        System.out.println(responseAnswer.size());
-//
 //        return ResponseEntity.ok("Oke");
 //    }
 
