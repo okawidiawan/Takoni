@@ -25,19 +25,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class ResponseAnswerController {
-
+    
     @Autowired
     private ResponseAnswerRepository responseAnswerRepository;
-
+    
     @Autowired
     private SurveyRepository surveyRepository;
-
+    
     @Autowired
     private UserRepository userRepository;
-
+    
     @Autowired
     private QuestionRepository questionRepository;
-
+    
     @GetMapping("/survey/question/answer/{id}")
     public ResponseEntity getAnswerByQuestionId(@PathVariable Integer id, Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
@@ -45,34 +45,31 @@ public class ResponseAnswerController {
         List<ResponseAnswer> responseAnswer = responseAnswerRepository.findQuestionByQuestionId(id);
         return ResponseEntity.ok(responseAnswer);
     }
-
+    
     @GetMapping("/survey/answer/{id}")
     public ResponseEntity getAnswerBySurvey(@PathVariable Integer id, Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
         List<ResponseAnswer> responseAnswer = responseAnswerRepository.findResponseBySurveyId(id);
-//        Optional<ResponseAnswer> rs =responseAnswerRepository.findById(id);
-        System.out.println(responseAnswer);
         return ResponseEntity.ok(responseAnswer);
     }
-
-//    @GetMapping("/survey/progress/{id}")
-//    public ResponseEntity getProgressSurvey(@PathVariable Integer id, Principal principal) {
-//        User userLoggedIn = userRepository.findUserByUsername(principal.getName());
-//        List<ResponseAnswer> responseAnswer = responseAnswerRepository.findResponseBySurveyId(id);
-//        return ResponseEntity.ok("Oke");
-//    }
-
-
+    
     @PostMapping("/add/survey/question/answer")
     public ResponseEntity addSurveyQuestionAnswer(@RequestBody ResponseAnswer questionAnswer, Principal principal) {
         User userLoggedIn = userRepository.findUserByUsername(principal.getName());
         Question question = questionRepository.findById(questionAnswer.getQuestion().getId()).get();
-
+        Survey survey = surveyRepository.getSurveyById(question.getSurvey().getId());
+        
         List<ResponseAnswer> qaFromDb = responseAnswerRepository.findResponseByQuestionIdAndUser(questionAnswer.getQuestion().getId(), userLoggedIn);
-
-//        System.out.println(qaFromDb);
-//        System.out.println(qaFromDb.isEmpty());
-//        System.out.println(question.getSurvey());
+        List<ResponseAnswer> qaSurveyUser = responseAnswerRepository.findBySurveyIdAndUser(survey.getId(), userLoggedIn);
+        
+        if (qaSurveyUser.isEmpty()) {
+            survey.setTotalResponse(survey.getTotalResponse() + 1);
+            if (survey.getTotalResponse() >= survey.getNumOfRespondent()) {
+                survey.setStatus("Closed");
+            }
+            surveyRepository.save(survey);
+        }
+        
         if (qaFromDb.isEmpty()) {
             questionAnswer.setQuestion(question);
             questionAnswer.setSurvey(question.getSurvey());
@@ -80,6 +77,7 @@ public class ResponseAnswerController {
             responseAnswerRepository.save(questionAnswer);
             return ResponseEntity.ok("Success Add Question Answer");
         }
+        
         return ResponseEntity.badRequest().body("You Already Answer This Question");
     }
 }

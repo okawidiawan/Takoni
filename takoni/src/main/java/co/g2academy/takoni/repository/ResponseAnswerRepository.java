@@ -16,7 +16,9 @@ public interface ResponseAnswerRepository extends JpaRepository<ResponseAnswer, 
 
     public List<ResponseAnswer> findBySurveyIdAndUser(Integer id, User user);
 
-    public List<ResponseAnswer> findByUserId(Integer id);
+    public List<ResponseAnswer> getByUserId(Integer id);
+
+    public Optional<ResponseAnswer> findByUserId(Integer id);
 
     public Optional<ResponseAnswer> findById(Integer id);
 

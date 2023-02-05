@@ -37,7 +37,8 @@ const Question = ({ question, index, questions, setQuestions }) => {
       <button className={`ml-5 h-fit  text-black/40 ${question.survey.status === "Waiting" ? "" : "hidden"}`} onClick={() => deleteQuestion(question.id)}>
         <XCircleIcon className="w-5 " />
       </button>
-      <Link to={`/dashboard/survey/${surveyId}/${question.id}`} className={`h-fit  text-black/40 ${question.survey.status === "Published" ? "" : "hidden"}`} onClick={() => seeQuestionDetails()}>
+
+      <Link to={`/dashboard/survey/${surveyId}/${question.id}`} className={`h-fit  text-black/40 ${question.survey.status === "Waiting" ? "hidden" : ""} `} onClick={() => seeQuestionDetails()}>
         <MagnifyingGlassCircleIcon className="w-5 " />
       </Link>
     </div>

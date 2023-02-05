@@ -12,9 +12,10 @@ public interface SurveyRepository extends JpaRepository<Survey, Integer> {
 
     public Optional<Survey> findById(Integer id);
 
+    public Survey getSurveyById(Integer id);
+
 //    public List<Survey> findBySurveyId(Integer id);
 //    public Survey getAllSurveyByResearcher(User user);
-
     public List<Survey> getAllSurveyByResearcher(User user);
 
     public List<Survey> getSurveyByStatus(String status);

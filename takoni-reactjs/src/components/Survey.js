@@ -1,28 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import { TrashIcon } from "@heroicons/react/24/solid";
-// import axios from "axios";
 
-// import { TrashIcon } from "@heroicons/react/24/outline";
-
-const Survey = ({ survey, setSurvey, surveys, index }) => {
-  // const deleteSurvey = (idInput) => {
-  //   axios
-  //     .delete(`http://192.168.100.14:8080/api/delete/survey/${idInput}`, {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `${localStorage.getItem("Authorization")}`,
-  //       },
-  //     })
-  //     .then(() => {
-  //       setSurvey(surveys.filter((item) => item.id !== idInput));
-  //       console.log("Deleted");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
+const Survey = ({ survey, index }) => {
   return (
     <Link to={`/dashboard/survey/${survey.id}`}>
       <div className="mx-3 mb-5 w-[276px] rounded-md border bg-white p-4 text-[#3E4154] shadow-md transition duration-300 hover:scale-105">
@@ -30,17 +9,23 @@ const Survey = ({ survey, setSurvey, surveys, index }) => {
         <div>
           <h1 className="block h-[60px] text-lg font-bold line-clamp-2">{survey.title}</h1>
           <h2 className="-mt-1 mb-5 text-[13px] font-semibold text-black/10 line-clamp-1">{survey.subTitle}</h2>
-          <p className="h-[35px] text-xs line-clamp-2">{survey.description}</p>
+          <p className="h-[35px] text-xs text-slate-400 line-clamp-2">{survey.description}</p>
+          <div className="my-5 flex flex-col">
+            <p className="mr-3 text-sm font-bold">Target Respondent</p>
+            <p className={`text-xs `}>
+              {survey.totalResponse} / <span className=""> {survey.numOfRespondent} </span>Respondent
+            </p>
+          </div>
         </div>
-        <div className="mt-5 flex ">
-          {/* <button className="mr-2 rounded-md border p-1 shadow-md" onClick={() => deleteSurvey(survey.id)}>
-            <TrashIcon className="h-5 w-5 text-black/50" />
-          </button> */}
-          {/* <button className="mr-2 rounded-md border p-1 shadow-md">
-          <PencilSquareIcon className="h-5 w-5 text-blac
-          k/50" />
-        </button> */}
-          <p className={`text-sm line-clamp-1 ${survey.status === "Waiting" ? "text-gray-400" : "text-emerald-500"}`}>{survey.status}</p>
+        <div className="mt-5 flex justify-between ">
+          <p
+            className={`
+            text-sm line-clamp-1 ${survey.status === "Waiting" ? "text-gray-400" : "text-emerald-500"} ${survey.status === "Closed" ? "text-red-400" : ""}
+            `}
+          >
+            <span className="font-semibold text-[#3E4154]">Status : </span>
+            {survey.status === "Published" ? "On Progress" : survey.status}
+          </p>
         </div>
       </div>
     </Link>
